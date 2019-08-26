@@ -1,21 +1,5 @@
-# Löve2D Gameshell Template
 
-> A simple template to quickly create Löve2D games for the [Gameshell](https://clockworkpi.com/)!
-
-## Features
-
-- Complete hump library ready to go!
-- Super simple self-made Screen Manager to organize everything!
-- Object-oriented coding with hump.class!
-- Compatibility with Löve2D v11.x colors! No more struggeling with 0-1 colors! Just use a 0-255 range everywhere!
-
-## Install
-
-Just clone this repository:
-```
-$ git clone https://github.com/Skayo/Gameshell-Love2D-Template.git
-```
-
+[love2d wiki](https://love2d.org/wiki)
 ## Usage
 
 ### Directory Structure
@@ -60,8 +44,3 @@ Useful for loading stuff.
   
 > Note that the ``init()`` method of a screen class gets called at love.load(). So you have to decide what to load/initialize in ``activate()`` and what to load/initialize in ``init()``!
 
-
-## Bugs / Issues / Feature-Requests
-
-If any bugs or issues occur while developing, report them in the [issue tracker](https://github.com/Skayo/Gameshell-Love2D-Template/issues)!
-If you feel like you are missing a feature, you can also create an issue! I'm open for any kind of suggestions!
