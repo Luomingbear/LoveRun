@@ -2,106 +2,106 @@ local class = require('lib.hump.class')
 local keys = require('lib.keys')
 
 local RunScreen = class{}
+-- 平台对象
+platform = {} 
 
 function RunScreen:init(ScreenManager)
     self.screen = ScreenManager
 end
 
 function RunScreen:activate()
+    platform.width = love.graphics.getWidth()
+	platform.height = love.graphics.getHeight()
+ 
+	platform.x = 0
+	platform.y = platform.height / 2
+ 
 	love.graphics.clear(1,1,1) 
 end
 
 local function player(x, y)
 
-    local status = 0
-
     local object = {
-        x = x,
-        y = y,
+        x = x, -- x坐标
+        y = y, -- y坐标
+        x_v = 0, -- x加速度
+        y_v = 0, -- y加速度
+        jumpHeight = -50, --跳跃高度
+        gravity = -100, -- 重力
+        ground = y, -- 地面的高度
+        force = 20, -- x推力
+        maxSpeed = 25 --x最大的速度
     }
 
-    function object:setStatus(s)
-        self.status = s
-    end        
-
-    function object:getStatus()
-        return self.status
+    function object:jump()
+        if self.y_v ==0 then
+            self.y_v = self.jumpHeight
+        end
     end
 
-    function object:isMaxHeight()
-        return self.y - 180 <= 0
+    function object:move(dt)
+        if self.x_v == 0 then
+            self.x_v = self.force
+        end
     end
+ 
+    function object:update(dt)
+        -- y轴
+        if self.y_v~=0 then
+            self.y = self.y + self.y_v * dt
+            self.y_v = self.y_v-self.gravity * dt
+        end
 
-    function object:isOnTheFloor()
-        return self.y - 200 >= 0
-    end
+        if self.y > self.ground then
+            self.y_v = 0
+            self.y = self.ground
+        end
 
-    function object:jumping(vy)
-        self.y = self.y - (vy or 0)
-        print(self.y)
-    end
+        -- x轴
+        if self.x_v ~= 0 then
+            self.x_v = self.x_v + self.force * dt
+        end
+        self.x = self.x + self.x_v * dt
 
-    function object:failing(vy)
-        self.y = self.y + (vy or 0)
-        print(self.y)
-    end
-
-    function object:move(vx)
-        self.x = self.x + (vx or 0)
+        if self.x_v >= self.maxSpeed then
+            self.x_v = 0
+        end
     end
 
     function object:draw()
         love.graphics.setColor(148,134,168)
         love.graphics.circle("fill", self.x, self.y, 15)
+        love.graphics.print(self.y,100,30)
     end
     return object
 end
 
 local playerA = player(30, 200)
-local moveSpeed = 200
-local jumpSpeed = 100
 local lastPressed
 
 function RunScreen:update(dt)
-    local vx = 0
-    local vy = 0
-    
+
     if love.keyboard.isDown(keys.DPad_right) then
-        if lastPressed == keys.DPad_right then return end
-        vx = moveSpeed
-        playerA:move(vx * dt)
-        lastPressed = keys.DPad_right
+        if lastPressed ~= keys.DPad_right then
+            playerA:move()
+            lastPressed = keys.DPad_right
+        end
     end
     if love.keyboard.isDown(keys.DPad_left) then
-        if lastPressed == keys.DPad_left then return end
-        vx = moveSpeed
-        playerA:move(vx * dt)
-        lastPressed = keys.DPad_left
+        if lastPressed ~= keys.DPad_left then
+            playerA:move()
+            lastPressed = keys.DPad_left
+        end
     end
     if love.keyboard.isDown(keys.A) then
-        if lastPressed == nil then return end
-        --vy = jumpSpeed
-        playerA:setStatus(1)
-        lastPressed = keys.A
+        if lastPressed ~= nil then
+            --vy = jumpSpeed 
+            lastPressed = keys.A
+            playerA:jump()
+        end
     end
 
-    if playerA:getStatus() == 1 and (not playerA:isMaxHeight()) then
-        playerA:jumping(jumpSpeed * dt)
-        print("jumping")
-    end
-    if playerA:getStatus() == 1 and playerA:isMaxHeight() then
-        playerA:setStatus(2)
-        playerA:failing(jumpSpeed * dt)
-        print("failing1")
-    end
-    if playerA:getStatus() == 2 and (not playerA:isOnTheFloor()) then
-        playerA:failing(jumpSpeed * dt)
-        print("failing2")
-    end
-    if playerA:getStatus() == 2 and playerA:isOnTheFloor() then
-        playerA:setStatus(0)
-        print("idle")
-    end
+    playerA:update(dt)
 
 end
 
