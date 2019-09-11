@@ -1,5 +1,6 @@
 local class = require('lib.hump.class')
 local keys = require('lib.keys')
+local Camera = require('lib.hump.camera')
 
 local RunScreen = class{}
 -- 平台对象
@@ -7,6 +8,7 @@ platform = {}
 
 function RunScreen:init(ScreenManager)
     self.screen = ScreenManager
+    self.camera = Camera(0,0)
 end
 
 function RunScreen:activate()
@@ -80,7 +82,10 @@ local playerA = player(30, 200)
 local lastPressed
 
 function RunScreen:update(dt)
-
+    -- 移动相机
+    local dx,dy = playerA.x - self.camera.x, 200-self.camera.y
+    self.camera:move(dx/2, dy/2)
+    -- 
     if love.keyboard.isDown(keys.DPad_right) then
         if lastPressed ~= keys.DPad_right then
             playerA:move()
@@ -115,7 +120,9 @@ function RunScreen:keypressed(key)
 end
 
 function RunScreen:draw()
+    self.camera:attach() 
     playerA:draw()
+    self.camera:detach()
 end
 
 return RunScreen

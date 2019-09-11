@@ -1,7 +1,7 @@
 -- 游戏的首页 选择加入房间还是创建房间，屏幕上有两个选择框
 
 local class = require('lib.hump.class')
-local keys = require('lib.keys') 
+local keys = require('lib.keys')
 
 local MainScreen = class {}
 
