@@ -30,27 +30,38 @@ function MainScreen:draw()
 	love.graphics.draw(logoImg,26,21,0,1,1)
 	-- 绘制文本
 	love.graphics.setColor(250,250,250)
-	drawText("创建房间",128,137,16)
-	drawText("加入房间",128,172,16)
+	drawText("创建房间",128,121,16)
+	drawText("加入房间",128,156,16)
+	drawText("退出游戏",128,191,16)
 	love.graphics.setColor(255,255,255)
 	if self.select==0 then
-		love.graphics.draw(arrowImg,105,140,0,1,1)
+		love.graphics.draw(arrowImg,105,121,0,1,1)
 	elseif self.select==1 then
-		love.graphics.draw(arrowImg,105,175,0,1,1)
+		love.graphics.draw(arrowImg,105,156,0,1,1)
+	elseif self.select==2 then
+		love.graphics.draw(arrowImg,105,191,0,1,1)
 	end
 end
 
 function MainScreen:keypressed(key)
 	if key == keys.DPad_down then
-		self.select = 1
+		self.select = self.select + 1
+		if self.select >2 then
+			self.select = 2
+		end
 	elseif key == keys.DPad_up then
-		self.select = 0
+		self.select = self.select - 1
+		if self.select < 0 then
+			self.select = 0
+		end
 	elseif key == keys.A then
 		if self.select == 0 then
 			-- 进入加入房间的场景
 			self.screen:view("room/create") 
 		elseif self.select == 1 then
 			self.screen:view("game/run")
+		elseif self.select == 2 then
+			love.event.quit(0)
 		end
 	end
 end
