@@ -3,7 +3,7 @@ function love.conf(t)
 	t.window.width = 320                -- Gameshell Screen Width
 	t.window.height = 240               -- Gameshell Screen Height
 	t.console = false                   -- Enable this while developing the game
-	-- t.version = "1.10.2"                -- The version installed on Gameshell by default. Change to your needs!
+	t.version = "1.10.2"                -- The version installed on Gameshell by default. Change to your needs!
 	
 	t.modules.audio = true              -- Enable the audio module (boolean)
 	t.modules.data = true               -- Enable the data module (boolean)
