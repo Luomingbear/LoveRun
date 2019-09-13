@@ -7,6 +7,8 @@ local MainScreen = class {}
 
 -- 首页的场景
 function MainScreen:init(ScreenManager)
+	logoImg = love.graphics.newImage("assets/images/logo.png")
+	arrowImg = love.graphics.newImage("assets/images/arrow.png")
 	self.screen = ScreenManager 
 	self.select = 0 -- 0表示创建，1表示加入
 	self.scale = 1
@@ -15,25 +17,26 @@ end
 
 
 function MainScreen:activate()
-	love.graphics.clear(1,1,1) 
 end
 
 function MainScreen:update(dt)
 	self.t = self.t+dt
 	self.scale = 1+ math.cos(self.t*3)*0.05
 end
- 
 
 function MainScreen:draw()
-	love.graphics.clear(100,100,129)
-	image1 = love.graphics.newImage("assets/images/createroom.png")
-	image2 = love.graphics.newImage("assets/images/joinroom.png")
+	love.graphics.clear(31,28,24)
+	love.graphics.setColor(255,255,255)
+	love.graphics.draw(logoImg,26,21,0,1,1)
+	-- 绘制文本
+	love.graphics.setColor(250,250,250)
+	drawText("创建房间",128,137,16)
+	drawText("加入房间",128,172,16)
+	love.graphics.setColor(255,255,255)
 	if self.select==0 then
-		love.graphics.draw(image1,10,10,0,self.scale,self.scale)
-		love.graphics.draw(image2,10,100,0,0.9,0.9)
+		love.graphics.draw(arrowImg,105,140,0,1,1)
 	elseif self.select==1 then
-		love.graphics.draw(image1,10,10,0,0.9,0.9)
-		love.graphics.draw(image2,10,100,0,self.scale,self.scale)
+		love.graphics.draw(arrowImg,105,175,0,1,1)
 	end
 end
 
