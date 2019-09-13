@@ -28,7 +28,8 @@ local MainScreen = require('screens.main')
 local MagicLineScreen = require('screens.magicline')
 local CreateRoomScreen = require('screens.createroom')
 local JoinRoomScreen = require('screens.joinroom')
-local RunScreen = require('screens.run')
+local TrackScreen = require('screens.track')
+--local RunScreen = require('screens.run')
 --
 
 
@@ -41,7 +42,8 @@ function love.load()
 	screenManager:register('game/magic', MagicLineScreen)
 	screenManager:register('room/create', CreateRoomScreen)
 	screenManager:register('room/join', JoinRoomScreen)
-	screenManager:register('game/run', RunScreen)
+	screenManager:register('game/track', TrackScreen)
+	--screenManager:register('game/run', RunScreen)
 	
 	-- Load the main screen. Only needed if you didn't register a screen with path "/"
 	--screenManager:view('test/index', 'Wow!')

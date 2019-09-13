@@ -30,8 +30,8 @@ function MainScreen:draw()
 	love.graphics.draw(logoImg,26,21,0,1,1)
 	-- 绘制文本
 	love.graphics.setColor(250,250,250)
-	drawText("创建房间",128,137,16)
-	drawText("加入房间",128,172,16)
+	--drawText("创建房间",128,137,16)
+	--drawText("加入房间",128,172,16)
 	love.graphics.setColor(255,255,255)
 	if self.select==0 then
 		love.graphics.draw(arrowImg,105,140,0,1,1)
@@ -50,7 +50,7 @@ function MainScreen:keypressed(key)
 			-- 进入加入房间的场景
 			self.screen:view("room/create") 
 		elseif self.select == 1 then
-			self.screen:view("game/run")
+			self.screen:view("game/track")
 		end
 	end
 end
