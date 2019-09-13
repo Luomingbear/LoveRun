@@ -6,7 +6,7 @@
     "trimmed": false,
     "spriteSourceSize": { "x": 0, "y": 0, "w": 38, "h": 38 },
     "sourceSize": { "w": 38, "h": 38 },
-    "duration": 100
+    "duration": 50
    },
    {
     "filename": "runer2run 1.aseprite",
@@ -15,7 +15,7 @@
     "trimmed": false,
     "spriteSourceSize": { "x": 0, "y": 0, "w": 38, "h": 38 },
     "sourceSize": { "w": 38, "h": 38 },
-    "duration": 150
+    "duration": 50
    },
    {
     "filename": "runer2run 2.aseprite",
@@ -24,7 +24,7 @@
     "trimmed": false,
     "spriteSourceSize": { "x": 0, "y": 0, "w": 38, "h": 38 },
     "sourceSize": { "w": 38, "h": 38 },
-    "duration": 150
+    "duration": 50
    },
    {
     "filename": "runer2run 3.aseprite",
@@ -33,7 +33,7 @@
     "trimmed": false,
     "spriteSourceSize": { "x": 0, "y": 0, "w": 38, "h": 38 },
     "sourceSize": { "w": 38, "h": 38 },
-    "duration": 150
+    "duration": 50
    },
    {
     "filename": "runer2run 4.aseprite",
@@ -42,7 +42,7 @@
     "trimmed": false,
     "spriteSourceSize": { "x": 0, "y": 0, "w": 38, "h": 38 },
     "sourceSize": { "w": 38, "h": 38 },
-    "duration": 150
+    "duration": 50
    },
    {
     "filename": "runer2run 5.aseprite",
@@ -51,7 +51,7 @@
     "trimmed": false,
     "spriteSourceSize": { "x": 0, "y": 0, "w": 38, "h": 38 },
     "sourceSize": { "w": 38, "h": 38 },
-    "duration": 150
+    "duration": 50
    },
    {
     "filename": "runer2run 6.aseprite",
@@ -60,7 +60,7 @@
     "trimmed": false,
     "spriteSourceSize": { "x": 0, "y": 0, "w": 38, "h": 38 },
     "sourceSize": { "w": 38, "h": 38 },
-    "duration": 150
+    "duration": 50
    },
    {
     "filename": "runer2run 7.aseprite",
@@ -69,7 +69,7 @@
     "trimmed": false,
     "spriteSourceSize": { "x": 0, "y": 0, "w": 38, "h": 38 },
     "sourceSize": { "w": 38, "h": 38 },
-    "duration": 150
+    "duration": 50
    }
  ],
  "meta": {

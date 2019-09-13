@@ -10,10 +10,12 @@ local function athlete(x, y)
         xVelocity = 0, -- x方向速度
         yVelocity = 0, -- y方向速度
         jumpHeight = -80, -- 跳跃高度
-        force = 20, -- 前进动力
-        maxSpeed = 100, -- 最大速度
+        force = 30, -- 前进动力
+        maxSpeed = 200, -- 最大速度
         gravity = -100, -- 重力
         ground = y, -- 地面坐标
+        xDuration = 0,
+        yDuration = 0,
         sprite = peachy.new("assets/images/runer2run.json", love.graphics.newImage("assets/images/runer2run.png"), "Left")
     }
 
@@ -23,29 +25,32 @@ local function athlete(x, y)
         end
     end
 
-    function object:move()
+    function object:move(dt)
         self.xVelocity = self.force
+        self.xDuration = 200 * dt
     end
 
     function object:update(dt)
 
         self.sprite:play()
 
-        -- x轴
-        if self.xVelocity ~= 0 then
-            self.xVelocity = self.xVelocity + self.force
-        end
-        self.x = self.x + self.xVelocity * dt
-
-        if self.xVelocity >= self.maxSpeed then
-            self.xVelocity = 0
-        end
-
         if love.keyboard.isDown(keys.DPad_right) then
             self.sprite:setTag("Right")
         elseif love.keyboard.isDown(keys.DPad_left) then
             self.sprite:setTag("Left")
         else
+            self.sprite:pause()
+        end
+
+        -- x轴
+        if self.xVelocity ~= 0 then
+            self.xVelocity = self.xVelocity + self.force
+            self.xDuration = self.xDuration - 25 * dt
+        end
+        self.x = self.x + self.xVelocity * dt
+
+        if self.xDuration <= 0 then
+            self.xVelocity = 0
             self.sprite:pause()
         end
 
@@ -97,13 +102,13 @@ function TrackScreen:update(dt)
 
     if love.keyboard.isDown(keys.DPad_right) then
         if lastPressed ~= keys.DPad_right then
-            playerA:move()
+            playerA:move(dt)
             lastPressed = keys.DPad_right
         end
     end
     if love.keyboard.isDown(keys.DPad_left) then
         if lastPressed ~= keys.DPad_left then
-            playerA:move()
+            playerA:move(dt)
             lastPressed = keys.DPad_left
         end
     end
