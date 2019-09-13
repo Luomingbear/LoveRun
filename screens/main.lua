@@ -59,7 +59,7 @@ function MainScreen:keypressed(key)
 			-- 进入加入房间的场景
 			self.screen:view("room/create") 
 		elseif self.select == 1 then
-			self.screen:view("game/run")
+        	self.screen:view("game/track")
 		elseif self.select == 2 then
 			love.event.quit(0)
 		end
