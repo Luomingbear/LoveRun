@@ -9,7 +9,7 @@ local MainScreen = class {}
 function MainScreen:init(ScreenManager)
 	logoImg = love.graphics.newImage("assets/images/logo.png")
 	arrowImg = love.graphics.newImage("assets/images/arrow.png")
-	self.screen = ScreenManager 
+	self.screen = ScreenManager
 	self.select = 0 -- 0表示创建，1表示加入
 	self.scale = 1
 	self.t = 0
