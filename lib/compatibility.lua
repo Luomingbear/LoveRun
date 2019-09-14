@@ -15,7 +15,7 @@ end
 --[[
 	绘制文本，默认使用了中文像素的字体，修复直接print，无法显示中文的问题
 ]]
-font = love.graphics.newFont("assets/fonts/fz.ttf",size)
+font = love.graphics.newFont("assets/fonts/fz.ttf",14)
 function drawText(text,x,y,size)
     love.graphics.setFont(font)
     love.graphics.print(text,x,y)
