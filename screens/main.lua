@@ -10,18 +10,14 @@ function MainScreen:init(ScreenManager)
 	logoImg = love.graphics.newImage("assets/images/logo.png")
 	arrowImg = love.graphics.newImage("assets/images/arrow.png")
 	self.screen = ScreenManager
-	self.select = 0 -- 0表示创建，1表示加入
-	self.scale = 1
-	self.t = 0
 end
 
 
 function MainScreen:activate()
+	self.select = 0 -- 0表示创建，1表示加入,2表示退出
 end
 
 function MainScreen:update(dt)
-	self.t = self.t+dt
-	self.scale = 1+ math.cos(self.t*3)*0.05
 end
 
 function MainScreen:draw()
@@ -57,7 +53,10 @@ function MainScreen:keypressed(key)
 	elseif key == keys.A then
 		if self.select == 0 then
 			-- 进入加入房间的场景
-			self.screen:view("room/create") 
+			info = {}
+			info[0] = false
+			info[1] = 33.44
+			self.screen:view("game/finish",info) 
 		elseif self.select == 1 then
         	self.screen:view("game/track")
 		elseif self.select == 2 then
