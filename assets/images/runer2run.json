@@ -6,7 +6,7 @@
     "trimmed": false,
     "spriteSourceSize": { "x": 0, "y": 0, "w": 52, "h": 32 },
     "sourceSize": { "w": 52, "h": 32 },
-    "duration": 400
+    "duration": 50
    },
    {
     "filename": "runer2run 1.aseprite",
@@ -15,7 +15,7 @@
     "trimmed": false,
     "spriteSourceSize": { "x": 0, "y": 0, "w": 52, "h": 32 },
     "sourceSize": { "w": 52, "h": 32 },
-    "duration": 700
+    "duration": 50
    },
    {
     "filename": "runer2run 2.aseprite",
@@ -24,7 +24,7 @@
     "trimmed": false,
     "spriteSourceSize": { "x": 0, "y": 0, "w": 52, "h": 32 },
     "sourceSize": { "w": 52, "h": 32 },
-    "duration": 700
+    "duration": 50
    },
    {
     "filename": "runer2run 3.aseprite",
@@ -33,7 +33,7 @@
     "trimmed": false,
     "spriteSourceSize": { "x": 0, "y": 0, "w": 52, "h": 32 },
     "sourceSize": { "w": 52, "h": 32 },
-    "duration": 700
+    "duration": 50
    },
    {
     "filename": "runer2run 4.aseprite",
@@ -42,7 +42,7 @@
     "trimmed": false,
     "spriteSourceSize": { "x": 0, "y": 0, "w": 52, "h": 32 },
     "sourceSize": { "w": 52, "h": 32 },
-    "duration": 100
+    "duration": 50
    },
    {
     "filename": "runer2run 5.aseprite",
@@ -51,7 +51,7 @@
     "trimmed": false,
     "spriteSourceSize": { "x": 0, "y": 0, "w": 52, "h": 32 },
     "sourceSize": { "w": 52, "h": 32 },
-    "duration": 150
+    "duration": 50
    },
    {
     "filename": "runer2run 6.aseprite",
@@ -60,7 +60,7 @@
     "trimmed": false,
     "spriteSourceSize": { "x": 0, "y": 0, "w": 52, "h": 32 },
     "sourceSize": { "w": 52, "h": 32 },
-    "duration": 150
+    "duration": 50
    },
    {
     "filename": "runer2run 7.aseprite",
@@ -69,7 +69,7 @@
     "trimmed": false,
     "spriteSourceSize": { "x": 0, "y": 0, "w": 52, "h": 32 },
     "sourceSize": { "w": 52, "h": 32 },
-    "duration": 150
+    "duration": 50
    },
    {
     "filename": "runer2run 8.aseprite",
@@ -78,7 +78,7 @@
     "trimmed": false,
     "spriteSourceSize": { "x": 0, "y": 0, "w": 52, "h": 32 },
     "sourceSize": { "w": 52, "h": 32 },
-    "duration": 150
+    "duration": 50
    },
    {
     "filename": "runer2run 9.aseprite",
@@ -87,7 +87,7 @@
     "trimmed": false,
     "spriteSourceSize": { "x": 0, "y": 0, "w": 52, "h": 32 },
     "sourceSize": { "w": 52, "h": 32 },
-    "duration": 150
+    "duration": 50
    },
    {
     "filename": "runer2run 10.aseprite",
@@ -96,7 +96,7 @@
     "trimmed": false,
     "spriteSourceSize": { "x": 0, "y": 0, "w": 52, "h": 32 },
     "sourceSize": { "w": 52, "h": 32 },
-    "duration": 150
+    "duration": 50
    },
    {
     "filename": "runer2run 11.aseprite",
@@ -105,7 +105,7 @@
     "trimmed": false,
     "spriteSourceSize": { "x": 0, "y": 0, "w": 52, "h": 32 },
     "sourceSize": { "w": 52, "h": 32 },
-    "duration": 150
+    "duration": 50
    },
    {
     "filename": "runer2run 12.aseprite",
@@ -123,7 +123,7 @@
     "trimmed": false,
     "spriteSourceSize": { "x": 0, "y": 0, "w": 52, "h": 32 },
     "sourceSize": { "w": 52, "h": 32 },
-    "duration": 150
+    "duration": 50
    },
    {
     "filename": "runer2run 14.aseprite",
@@ -132,7 +132,7 @@
     "trimmed": false,
     "spriteSourceSize": { "x": 0, "y": 0, "w": 52, "h": 32 },
     "sourceSize": { "w": 52, "h": 32 },
-    "duration": 300
+    "duration": 50
    },
    {
     "filename": "runer2run 15.aseprite",
@@ -141,7 +141,7 @@
     "trimmed": false,
     "spriteSourceSize": { "x": 0, "y": 0, "w": 52, "h": 32 },
     "sourceSize": { "w": 52, "h": 32 },
-    "duration": 200
+    "duration": 50
    },
    {
     "filename": "runer2run 16.aseprite",
@@ -150,7 +150,7 @@
     "trimmed": false,
     "spriteSourceSize": { "x": 0, "y": 0, "w": 52, "h": 32 },
     "sourceSize": { "w": 52, "h": 32 },
-    "duration": 100
+    "duration": 50
    },
    {
     "filename": "runer2run 17.aseprite",
@@ -159,7 +159,7 @@
     "trimmed": false,
     "spriteSourceSize": { "x": 0, "y": 0, "w": 52, "h": 32 },
     "sourceSize": { "w": 52, "h": 32 },
-    "duration": 100
+    "duration": 50
    },
    {
     "filename": "runer2run 18.aseprite",
@@ -168,7 +168,7 @@
     "trimmed": false,
     "spriteSourceSize": { "x": 0, "y": 0, "w": 52, "h": 32 },
     "sourceSize": { "w": 52, "h": 32 },
-    "duration": 150
+    "duration": 50
    },
    {
     "filename": "runer2run 19.aseprite",
@@ -177,7 +177,7 @@
     "trimmed": false,
     "spriteSourceSize": { "x": 0, "y": 0, "w": 52, "h": 32 },
     "sourceSize": { "w": 52, "h": 32 },
-    "duration": 150
+    "duration": 50
    },
    {
     "filename": "runer2run 20.aseprite",
@@ -186,7 +186,7 @@
     "trimmed": false,
     "spriteSourceSize": { "x": 0, "y": 0, "w": 52, "h": 32 },
     "sourceSize": { "w": 52, "h": 32 },
-    "duration": 500
+    "duration": 50
    },
    {
     "filename": "runer2run 21.aseprite",
@@ -195,7 +195,7 @@
     "trimmed": false,
     "spriteSourceSize": { "x": 0, "y": 0, "w": 52, "h": 32 },
     "sourceSize": { "w": 52, "h": 32 },
-    "duration": 700
+    "duration": 50
    }
  ],
  "meta": {
