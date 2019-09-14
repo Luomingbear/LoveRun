@@ -21,21 +21,21 @@ local function ScrollImg(y,img,level,play)
 
     function object:update(dt)
         if self.oldPlayerX==0 then
-            self.oldPlayerX = self.player:getX()
+            self.oldPlayerX = self.player.x
         end
-        difX = self.player:getX() - self.oldPlayerX
+        difX = self.player.x- self.oldPlayerX
         self.x = self.x + difX * (self.level-1) * self.speed
-        self.oldPlayerX = self.player:getX()
-        if self.player:getX() - 160 - self.x > 320 then
+        self.oldPlayerX = self.player.x
+        if self.player.x - 160 - self.x > 320 then
             -- 说明这个图片已经完全离屏离，需要更新x坐标
-            self.x = self.player:getX() - 160
+            self.x = self.player.x - 160
         end
     end
 
     function object:draw()
         love.graphics.draw(self.img,self.x,self.y,0,1,1)
-        x = self.player:getX() - 160 - self.x
-        if self.player:getX()-160 > self.x then
+        x = self.player.x - 160 - self.x
+        if self.player.x-160 > self.x then
             love.graphics.draw(self.img,self.x+320,self.y,0,1,1)
         else
             love.graphics.draw(self.img,self.x-320,self.y,0,1,1)
@@ -180,7 +180,7 @@ local function Athlete(x, y,img)
         if self.xVelocity ~= 0 then
             self.xVelocity = self.xVelocity + self.force
         end
-        self.x = self.x + self.xVelocity * dt
+        self.x = self.x + self.xVelocity * 10 * dt
 
         -- y轴
         if self.yVelocity ~= 0 then
@@ -199,10 +199,6 @@ local function Athlete(x, y,img)
         love.graphics.setColor(148,134,168)
         love.graphics.rectangle("fill", self.x, self.y, self.width, self.height) -- 碰撞盒
         self.sprite:draw(self.x, self.y)
-    end
-
-    function object:getX()
-        return self.x
     end
 
     return object
@@ -287,9 +283,6 @@ function TrackScreen:draw()
     -- 绘制场景
     self.background:draw()
     --
-    love.graphics.print(math.floor(self.playerA.x), 60, 30)
-    love.graphics.print(math.floor(self.playerA.y),100,30)
-    love.graphics.setColor(255, 255, 255)
 
     self.playerA:draw()
     self.playerB:draw()
@@ -297,11 +290,12 @@ function TrackScreen:draw()
     -- 绘制栏杆
     for i=1,10 do
         self.hurdleTable[i]:draw()
+        love.graphics.print(tostring(testRect(self.playerA, self.hurdleTable[i])), self.hurdleTable[i].x, self.hurdleTable[i].y)
     end
     -- 绘制按钮
-    self.footLeft:draw(self.playerA:getX() - 160 + 17,216)
-    self.footRight:draw(self.playerA:getX() - 160 +47,216)
-    self.footJump:draw(self.playerA:getX() - 160 +274,216)
+    self.footLeft:draw(self.playerA.x - 160 + 17,216)
+    self.footRight:draw(self.playerA.x - 160 +47,216)
+    self.footJump:draw(self.playerA.x - 160 +274,216)
 
     self.camera:detach()
 end
