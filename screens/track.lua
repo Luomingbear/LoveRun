@@ -15,7 +15,7 @@ local function ScrollImg(y,img,level,play)
         img = img,
         level = level, -- 正整数，表示在第几图层，level越小，滚动速度越快，最小为1
         player = play, -- 角色玩家
-        speed = 0.05, -- 移动速度
+        speed = 0.1, -- 移动速度
         oldPlayerX = 0 -- 上一次的玩家x坐标
     }
 
@@ -78,13 +78,11 @@ local function Athlete(x, y,img)
     local object = {
         x = x, -- x坐标
         y = y, -- y坐标
-        width = 40,
+        width = 24,
         height = 30,
-        xVelocity = 0, -- x方向速度
         yVelocity = 0, -- y方向速度
         jumpHeight = -130, -- 跳跃高度
-        force = 30, -- 前进动力
-        maxSpeed = 200, -- 最大速度
+        speed = 180, -- 速度
         gravity = -240, -- 重力
         ground = y, -- 地面坐标
         t = 0, -- 时间
@@ -98,6 +96,7 @@ local function Athlete(x, y,img)
             start = 0.3,
             left = 0.2,
             right = 0.2,
+            jump = 0.2,
             fall = 1,
             idle = 0
         }
@@ -107,11 +106,9 @@ local function Athlete(x, y,img)
         self.x = x
         self.y = y
         self.time = 0
-        self.xVelocity = 0 -- x方向速度
         self.yVelocity = 0 -- y方向速度
-        self.jumpHeight = -130 -- 跳跃高度
-        self.force = 2 -- 前进动力
-        self.maxSpeed = 10 -- 最大速度
+        self.jumpHeight = -120 -- 跳跃高度
+        self.speed = 180 -- 速度
         self.gravity = -240 -- 重力
         self.ground = y -- 地面坐标
         self.status = ''
@@ -120,41 +117,56 @@ local function Athlete(x, y,img)
     end
 
     function object:jump()
-        if self.status == keys.DPad_left then
+        if self.time - self.statusTime < self.statusDuration.jump then
+            return
+        end
+        self.statusTime = self.time
+        if self.status == "Left" then
             self.status = "Right"
             self.sprite:setTag("Right")
-        elseif self.status == keys.DPad_right then
+            self.xVelocity = self.force
+        elseif self.status == "Right" then
             self.status = "Left"    
             self.sprite:setTag("Left")
+            self.xVelocity = self.force
+        else
+            self.status = "Left"    
+            self.sprite:setTag("Left")
+            self.xVelocity = self.force
         end
 
         if self.yVelocity == 0 then
             self.yVelocity = self.jumpHeight
         end
-        self.statusTime = self.time
     end
 
     function object:left()
+        if self.time - self.statusTime < self.statusDuration.left then
+            return
+        end
         self.status = "Left"
         self.sprite:setTag("Left")
-        self.sprite:play()
         self.xVelocity = self.force
         self.statusTime = self.time
     end
 
     function object:right()
+        if self.time - self.statusTime < self.statusDuration.right then
+            return
+        end
         self.status = "Right"
         self.sprite:setTag("Right")
-        self.sprite:play()
         self.xVelocity = self.force
         self.statusTime = self.time
     end
 
     function object:fall()
+        if self.status =="Fall" then
+            return
+        end
         self.status = "Fall"
         self.sprite:setTag("Fall")
-        self.sprite:play()
-        self.stausTime = self.time
+        self.statusTime = self.time
     end
  
     function object:update(dt)
@@ -163,24 +175,20 @@ local function Athlete(x, y,img)
         difTime = self.time - self.statusTime
 
         -- 判断不同的
-        if (self.status == "Start" and difTime > self.statusDuration.start ) then
-            self.sprite:stop()
-        elseif (self.status == "Left" and difTime > self.statusDuration.left ) then
-            self.sprite:stop()
-            self.xVelocity = 0
+        if (self.status == "Left" and difTime > self.statusDuration.left ) then
+            self.sprite:setTag("Idle")
         elseif (self.status == "Right" and difTime > self.statusDuration.right ) then
-            self.sprite:stop()
-            self.xVelocity = 0
+            self.sprite:setTag("Idle")
         elseif (self.status == "Fall" and difTime > self.statusDuration.fall ) then
-            self.sprite:stop()
-            self.xVelocity = 0
+            self.sprite:setTag("Idle")
         end
 
         -- x轴
-        if self.xVelocity ~= 0 then
-            self.xVelocity = self.xVelocity + self.force
+        if (self.status == "Left" and difTime < self.statusDuration.left ) then
+            self.x = self.x + self.speed * dt
+        elseif (self.status == "Right" and difTime < self.statusDuration.right ) then
+            self.x = self.x + self.speed * dt
         end
-        self.x = self.x + self.xVelocity * 10 * dt
 
         -- y轴
         if self.yVelocity ~= 0 then
@@ -198,6 +206,7 @@ local function Athlete(x, y,img)
     function object:draw()
         love.graphics.setColor(148,134,168)
         love.graphics.rectangle("fill", self.x, self.y, self.width, self.height) -- 碰撞盒
+        love.graphics.setColor(255,255,255)
         self.sprite:draw(self.x, self.y)
     end
 
@@ -210,15 +219,20 @@ local function hurdle(x, y)
     local object = {
         x = x, -- x坐标
         y = y, -- y坐标
-        width = 5,
-        height = 25,
+        width = 4,
+        height = 24,
         ground = y,
         status = "Good",
         sprite = peachy.new("assets/images/hurdle.json", love.graphics.newImage("assets/images/hurdle.png"), "Good")
     }
 
+    function object:rest()
+        self.status = "Good"
+        self.sprite:setTag("Good")
+    end
+
     function object:broken()
-        status = "Bad"
+        self.status = "Bad"
         self.sprite:setTag("Bad")
     end
 
@@ -246,7 +260,11 @@ local TrackScreen = class {}
 
 -- 矩形碰撞
 function testRect(athlete, hurdle)
+    if hurdle.status == "Bad" then
+        return false
+    else
     return athlete.x<hurdle.x+hurdle.width and athlete.y<hurdle.y+hurdle.height and athlete.x+athlete.width>hurdle.x and athlete.y+athlete.height>hurdle.y
+    end
 end
 
 function TrackScreen:init(ScreenManager)
@@ -260,13 +278,16 @@ function TrackScreen:init(ScreenManager)
     self.footJump = peachy.new("assets/images/jump.json", love.graphics.newImage("assets/images/jump.png"), "Normal")
     self.hurdleTable = {}
     for i=1,10 do
-        table.insert(self.hurdleTable, i, hurdle(500 * i, 185))
+        table.insert(self.hurdleTable, i, hurdle(380 * i, 185))
     end
 end
 
 function TrackScreen:activate()
     self.playerA:rest(0,180)
     self.playerB:rest(0,140)
+    for i=1,10 do
+        self.hurdleTable[i]:rest()
+    end
 end
 
 function TrackScreen:update(dt)
@@ -278,6 +299,13 @@ function TrackScreen:update(dt)
     self.footLeft:update(dt)
     self.footRight:update(dt)
     self.footJump:update(dt)
+    -- 更新栏杆
+    for i=1,10 do
+        if (self.hurdleTable[i].status == "Good" and testRect(self.playerA, self.hurdleTable[i]) )then
+            self.hurdleTable[i]:broken()
+            self.playerA:fall()
+        end
+    end
 
     -- 移动相机
     self.camera:lookAt(self.playerA.x, 120)
@@ -289,19 +317,15 @@ function TrackScreen:draw()
     self.camera:attach()
     -- 绘制场景
     self.background:draw()
-    --
-
-    self.playerA:draw()
-    self.playerB:draw()
-
     -- 绘制栏杆
     for i=1,10 do
         self.hurdleTable[i]:draw()
-        if testRect(self.playerA, self.hurdleTable[i]) then
-            self.hurdleTable[i]:broken()
-            self.playerA:fall()
-        end
     end
+
+    -- 绘制玩家
+    self.playerA:draw()
+    self.playerB:draw()
+
     -- 绘制按钮
     self.footLeft:draw(self.playerA.x - 160 + 17,216)
     self.footRight:draw(self.playerA.x - 160 +47,216)
@@ -318,22 +342,19 @@ function TrackScreen:keypressed(key)
         else
             self.playerA:fall()
         end
-    end
-    if key == keys.DPad_left then
+    elseif key == keys.DPad_left then
         if self.lastPressed ~= keys.DPad_left then
             self.lastPressed = key
             self.playerA:left()
         else
             self.playerA:fall()
         end
-    end
-    if key == keys.A then
+    elseif key == keys.A then
         if self.lastPressed ~= nil then
             self.lastPressed = key
             self.playerA:jump()
         end
-    end
-    if key == keys.B then
+    elseif key == keys.B then
         self.screen:view('/', 'reset')
     end
 end
