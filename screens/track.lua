@@ -118,12 +118,11 @@ end
 
 local TrackScreen = class {}
 
-local playerA = athlete(30, 180)
-local hurdle1 = hurdle(150, 185)
+local playerA = athlete(0, 180)
 local lastPressed
 
-platform = {}
 camera = {}
+hurdleTable = {}
 
 -- 矩形碰撞
 function testRect(athlete, hurdle)
@@ -135,14 +134,10 @@ function TrackScreen:init(ScreenManager)
 end
 
 function TrackScreen:activate()
-    platform.width = love.graphics.getWidth()
-    platform.height = love.graphics.getHeight()
-
-    platform.x = 0
-    platform.y = platform.height * 2 / 3
-
     camera = Camera(0, 0)
-
+    for i=1,10 do
+        table.insert(hurdleTable, i, hurdle(200 * i, 185))
+    end
     love.graphics.clear(1, 1, 1)
 end
 
@@ -170,25 +165,22 @@ function TrackScreen:update(dt)
     local dx,dy = playerA.x - camera.x, playerA.y - camera.y
     camera:move(dx/2, dy/2)
 
-    if bodyTest(playerA, hurdle1) then
-        playerA.sprite:setTag("Fall")
-    end
-
     playerA:update(dt)
-    hurdle1:update(dt)
 end
 
 function TrackScreen:draw()
 
     camera:attach()
 
-    love.graphics.print(tostring(testRect(playerA, hurdle1)), 140, 30)
     love.graphics.print(math.floor(playerA.x), 60, 30)
     love.graphics.print(math.floor(playerA.y),100,30)
     love.graphics.setColor(255, 255, 255)
 
     playerA:draw()
-    hurdle1:draw()
+
+    for i=1,10 do
+        hurdleTable[i]:draw()
+    end
 
     camera:detach()
 end
