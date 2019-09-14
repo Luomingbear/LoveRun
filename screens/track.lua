@@ -1,6 +1,7 @@
 local class = require('lib.hump.class')
 local keys = require('lib.keys')
 local peachy  = require('lib.peachy')
+local Camera = require('lib.hump.camera')
 
 local function athlete(x, y)
     
@@ -117,6 +118,7 @@ local hurdle1 = hurdle(150, 195)
 local lastPressed
 
 platform = {}
+camera = {}
 
 -- 碰撞点
 function pointTest(x,y,l,t,r,b)
@@ -147,6 +149,8 @@ function TrackScreen:activate()
     platform.x = 0
     platform.y = platform.height * 2 / 3
 
+    camera = Camera(0, 0)
+
     love.graphics.clear(1, 1, 1)
 end
 
@@ -171,11 +175,16 @@ function TrackScreen:update(dt)
         end
     end
 
+    local dx,dy = playerA.x - camera.x, playerA.y - camera.y
+    camera:move(dx/2, dy/2)
+
     playerA:update(dt)
     hurdle1:update(dt)
 end
 
 function TrackScreen:draw()
+
+    camera:attach()
 
     love.graphics.print(tostring(bodyTest(playerA.x, playerA.y, playerA.x + playerA.width, playerA.y + playerA.height, hurdle1.x, hurdle1.y, hurdle1.x + hurdle1.width, hurdle1.y + hurdle1.height)), 140, 30)
     love.graphics.print(math.floor(playerA.x), 60, 30)
@@ -184,6 +193,8 @@ function TrackScreen:draw()
 
     playerA:draw()
     hurdle1:draw()
+
+    camera:detach()
 end
 
 function TrackScreen:keypressed(key)
