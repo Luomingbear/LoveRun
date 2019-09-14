@@ -7,16 +7,18 @@ local function athlete(x, y)
     local object = {
         x = x, -- x坐标
         y = y, -- y坐标
+        width = 40,
+        height = 40,
         xVelocity = 0, -- x方向速度
         yVelocity = 0, -- y方向速度
-        jumpHeight = -80, -- 跳跃高度
+        jumpHeight = -130, -- 跳跃高度
         force = 30, -- 前进动力
         maxSpeed = 200, -- 最大速度
-        gravity = -100, -- 重力
+        gravity = -240, -- 重力
         ground = y, -- 地面坐标
         xDuration = 0,
         yDuration = 0,
-        sprite = peachy.new("assets/images/runer2run.json", love.graphics.newImage("assets/images/runer2run.png"), "Left")
+        sprite = peachy.new("assets/images/runer2run.json", love.graphics.newImage("assets/images/runer2run.png"), "Idle")
     }
 
     function object:jump()
@@ -51,6 +53,7 @@ local function athlete(x, y)
 
         if self.xDuration <= 0 then
             self.xVelocity = 0
+            self.sprite:setTag("Idle")
             self.sprite:pause()
         end
 
@@ -70,19 +73,68 @@ local function athlete(x, y)
 
     function object:draw()
         love.graphics.setColor(148,134,168)
-        love.graphics.rectangle("fill", self.x, self.y, 40, 38) -- 碰撞盒
-        love.graphics.print(math.floor(self.y),100,30)
+        love.graphics.rectangle("fill", self.x, self.y, self.width, self.height) -- 碰撞盒
         self.sprite:draw(self.x, self.y)
     end
+
+    function object:getPoints()
+        return self.x, self.y, self.x + self.width, self.y + self.height
+    end
+
+    return object
+end
+
+local function hurdle(x, y)
+
+    local object = {
+        x = x, -- x坐标
+        y = y, -- y坐标
+        width = 5,
+        height = 25,
+        ground = y
+    }
+
+    function object:update(dt)
+        -- body
+    end
+
+    function object:draw()
+        love.graphics.setColor(200, 200, 200)
+        love.graphics.rectangle("fill", self.x, self.y, self.width, self.height)
+    end
+
+    function object:getPoints()
+        return self.x, self.y, self.x + self.width, self.y + self.height
+    end
+
     return object
 end
 
 local TrackScreen = class {}
 
 local playerA = athlete(30, 180)
+local hurdle1 = hurdle(150, 195)
 local lastPressed
 
 platform = {}
+
+-- 碰撞点
+function pointTest(x,y,l,t,r,b)
+	if x< l or x> r or y< t or y>b then return false end
+	return true
+end
+
+-- 碰撞盒
+function bodyTest(Al,At,Ar,Ab,Bl,Bt,Br,Bb)
+	if pointTest(Al,At,Bl,Bt,Br,Bb) 
+		or pointTest(Ar,At,Bl,Bt,Br,Bb) 
+		or pointTest(Al,Ab,Bl,Bt,Br,Bb) 
+		or pointTest(Ar,Ab,Bl,Bt,Br,Bb) then
+        return true
+    else 
+        return false
+	end
+end
 
 function TrackScreen:init(ScreenManager)
     self.screen = ScreenManager
@@ -120,16 +172,18 @@ function TrackScreen:update(dt)
     end
 
     playerA:update(dt)
+    hurdle1:update(dt)
 end
 
 function TrackScreen:draw()
 
-    love.graphics.setColor(200, 200, 200)
-    love.graphics.rectangle("fill", 100, 200, 5, 20)
+    love.graphics.print(tostring(bodyTest(playerA.x, playerA.y, playerA.x + playerA.width, playerA.y + playerA.height, hurdle1.x, hurdle1.y, hurdle1.x + hurdle1.width, hurdle1.y + hurdle1.height)), 140, 30)
     love.graphics.print(math.floor(playerA.x), 60, 30)
+    love.graphics.print(math.floor(playerA.y),100,30)
     love.graphics.setColor(255, 255, 255)
 
     playerA:draw()
+    hurdle1:draw()
 end
 
 function TrackScreen:keypressed(key)
