@@ -232,6 +232,7 @@ local function hurdle(x, y)
     end
 
     function object:draw()
+        love.graphics.setColor(255,255,255)
         self.sprite:draw(self.x - 15, self.y - 15)
     end
 
