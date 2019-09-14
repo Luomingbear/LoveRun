@@ -212,8 +212,15 @@ local function hurdle(x, y)
         y = y, -- y坐标
         width = 5,
         height = 25,
-        ground = y
+        ground = y,
+        status = "Good",
+        sprite = peachy.new("assets/images/hurdle.json", love.graphics.newImage("assets/images/hurdle.png"), "Good")
     }
+
+    function object:broken()
+        status = "Bad"
+        self.sprite:setTag("Bad")
+    end
 
     function object:activate(x, y)
         self.x = x
@@ -221,12 +228,11 @@ local function hurdle(x, y)
     end
 
     function object:update(dt)
-        -- body
+        self.sprite:update(dt)
     end
 
     function object:draw()
-        love.graphics.setColor(200, 200, 200)
-        love.graphics.rectangle("fill", self.x, self.y, self.width, self.height)
+        self.sprite:draw(self.x - 15, self.y - 15)
     end
 
     return object
@@ -290,7 +296,9 @@ function TrackScreen:draw()
     -- 绘制栏杆
     for i=1,10 do
         self.hurdleTable[i]:draw()
-        love.graphics.print(tostring(testRect(self.playerA, self.hurdleTable[i])), self.hurdleTable[i].x, self.hurdleTable[i].y)
+        if testRect(self.playerA, self.hurdleTable[i]) then
+            self.hurdleTable[i]:broken()
+        end
     end
     -- 绘制按钮
     self.footLeft:draw(self.playerA.x - 160 + 17,216)
