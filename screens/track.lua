@@ -9,7 +9,7 @@ local function athlete(x, y)
         x = x, -- x坐标
         y = y, -- y坐标
         width = 40,
-        height = 40,
+        height = 30,
         xVelocity = 0, -- x方向速度
         yVelocity = 0, -- y方向速度
         jumpHeight = -130, -- 跳跃高度
@@ -18,7 +18,7 @@ local function athlete(x, y)
         gravity = -240, -- 重力
         ground = y, -- 地面坐标
         xDuration = 0,
-        yDuration = 0,
+        fallDuration = 0,
         sprite = peachy.new("assets/images/runer2run.json", love.graphics.newImage("assets/images/runer2run.png"), "Idle")
     }
 
@@ -30,7 +30,12 @@ local function athlete(x, y)
 
     function object:move(dt)
         self.xVelocity = self.force
-        self.xDuration = 200 * dt
+        self.xDuration = 150 * dt
+    end
+
+    function object:fall(dt)
+        self.sprite:setTag("Fall")
+        self.fallDuration = 350 * dt
     end
 
     function object:update(dt)
@@ -114,28 +119,15 @@ end
 local TrackScreen = class {}
 
 local playerA = athlete(30, 180)
-local hurdle1 = hurdle(150, 195)
+local hurdle1 = hurdle(150, 185)
 local lastPressed
 
 platform = {}
 camera = {}
 
--- 碰撞点
-function pointTest(x,y,l,t,r,b)
-	if x< l or x> r or y< t or y>b then return false end
-	return true
-end
-
--- 碰撞盒
-function bodyTest(Al,At,Ar,Ab,Bl,Bt,Br,Bb)
-	if pointTest(Al,At,Bl,Bt,Br,Bb) 
-		or pointTest(Ar,At,Bl,Bt,Br,Bb) 
-		or pointTest(Al,Ab,Bl,Bt,Br,Bb) 
-		or pointTest(Ar,Ab,Bl,Bt,Br,Bb) then
-        return true
-    else 
-        return false
-	end
+-- 矩形碰撞
+function testRect(athlete, hurdle)
+    return athlete.x<hurdle.x+hurdle.width and athlete.y<hurdle.y+hurdle.height and athlete.x+athlete.width>hurdle.x and athlete.y+athlete.height>hurdle.y
 end
 
 function TrackScreen:init(ScreenManager)
@@ -178,6 +170,10 @@ function TrackScreen:update(dt)
     local dx,dy = playerA.x - camera.x, playerA.y - camera.y
     camera:move(dx/2, dy/2)
 
+    if bodyTest(playerA, hurdle1) then
+        playerA.sprite:setTag("Fall")
+    end
+
     playerA:update(dt)
     hurdle1:update(dt)
 end
@@ -186,7 +182,7 @@ function TrackScreen:draw()
 
     camera:attach()
 
-    love.graphics.print(tostring(bodyTest(playerA.x, playerA.y, playerA.x + playerA.width, playerA.y + playerA.height, hurdle1.x, hurdle1.y, hurdle1.x + hurdle1.width, hurdle1.y + hurdle1.height)), 140, 30)
+    love.graphics.print(tostring(testRect(playerA, hurdle1)), 140, 30)
     love.graphics.print(math.floor(playerA.x), 60, 30)
     love.graphics.print(math.floor(playerA.y),100,30)
     love.graphics.setColor(255, 255, 255)
