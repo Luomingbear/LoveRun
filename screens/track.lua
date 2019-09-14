@@ -19,7 +19,7 @@ local function athlete(x, y)
         ground = y, -- 地面坐标
         xDuration = 0,
         fallDuration = 0,
-        sprite = peachy.new("assets/images/runer2run.json", love.graphics.newImage("assets/images/runer2run.png"), "Idle")
+        sprite = peachy.new("assets/images/runer2run.json", love.graphics.newImage("assets/images/runer2run.png"), "Ready")
     }
 
     function object:jump()
@@ -83,10 +83,6 @@ local function athlete(x, y)
         self.sprite:draw(self.x, self.y)
     end
 
-    function object:getPoints()
-        return self.x, self.y, self.x + self.width, self.y + self.height
-    end
-
     return object
 end
 
@@ -107,10 +103,6 @@ local function hurdle(x, y)
     function object:draw()
         love.graphics.setColor(200, 200, 200)
         love.graphics.rectangle("fill", self.x, self.y, self.width, self.height)
-    end
-
-    function object:getPoints()
-        return self.x, self.y, self.x + self.width, self.y + self.height
     end
 
     return object
