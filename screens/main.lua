@@ -12,7 +12,6 @@ function MainScreen:init(ScreenManager)
 	self.screen = ScreenManager
 end
 
-
 function MainScreen:activate()
 	self.select = 0 -- 0表示创建，1表示加入,2表示退出
 end
