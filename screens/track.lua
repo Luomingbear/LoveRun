@@ -299,6 +299,7 @@ function TrackScreen:draw()
         self.hurdleTable[i]:draw()
         if testRect(self.playerA, self.hurdleTable[i]) then
             self.hurdleTable[i]:broken()
+            self.playerA:fall()
         end
     end
     -- 绘制按钮
