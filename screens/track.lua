@@ -56,8 +56,16 @@ local function Background(player)
         -- 围墙
         scrollWall = ScrollImg(94,love.graphics.newImage("assets/images/wall2.png"),2,player),
         -- 天空
-        scrollSky = ScrollImg(0,love.graphics.newImage("assets/images/cloud.png"),4,player),
+        scrollSky = ScrollImg(0,love.graphics.newImage("assets/images/cloud.png"),4,player)
     }
+
+    function object:reset()
+        self.scrollRunway = ScrollImg(136,love.graphics.newImage("assets/images/runway.png"),1,player)
+        -- 围墙
+        self.scrollWall = ScrollImg(94,love.graphics.newImage("assets/images/wall2.png"),2,player)
+        -- 天空
+        self.scrollSky = ScrollImg(0,love.graphics.newImage("assets/images/cloud.png"),4,player)
+    end
 
     function object:update(dt)
         self.scrollRunway:update(dt)
@@ -316,6 +324,7 @@ local function countDownTimer()
     end
 
     function object:setUp()
+        self.time = 3
         Timer.every(1, function() self:count() end)
     end
 
@@ -384,6 +393,7 @@ function TrackScreen:activate(data)
         self.hurdleTable1[i]:rest()
         self.hurdleTable2[i]:rest()
     end
+    self.background:reset()
     self.timer:setUp()
 end
 
