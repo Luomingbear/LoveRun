@@ -373,7 +373,7 @@ function TrackScreen:init(ScreenManager)
     self.robot = require("lib.robot")
     for i=1,10 do
         table.insert(self.hurdleTable1, i, hurdle(380 * i, 185))
-        table.insert(self.hurdleTable2, i, hurdle(380 * i, 150))
+        table.insert(self.hurdleTable2, i, hurdle(380 * i, 155))
     end
 end
 
