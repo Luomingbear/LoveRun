@@ -81,7 +81,7 @@ local function Athlete(x, y,img)
         mine = true, --true：表示这个是玩家本人，false表示这个是对手
         isServer = true, --是否是服务端
         width = 24,
-        height = 30,
+        height = 32,
         yVelocity = 0, -- y方向速度
         jumpHeight = -130, -- 跳跃高度
         speed = 200, -- 速度
@@ -401,7 +401,7 @@ function TrackScreen:update(dt)
         end
     end
 
-    if self.playerA.x >= 380 * 10 then
+    if self.playerA.x >= 380 * 11 then
         info = {}
         info[0] = true
         info[1] = self.playerA.time
@@ -431,6 +431,10 @@ function TrackScreen:draw()
     self.footLeft:draw(self.playerA.x - 160 + 17,216)
     self.footRight:draw(self.playerA.x - 160 +47,216)
     self.footJump:draw(self.playerA.x - 160 +274,216)
+
+    -- 终点线
+    love.graphics.setColor(255,255,255)
+    love.graphics.line(380 * 11, 205, 380 * 11 - 20, 155)
 
     self.camera:detach()
 end
