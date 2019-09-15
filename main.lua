@@ -24,7 +24,7 @@ socket = require('lib.socket_m')
 --
 
 -- Load Screens
-local MainScreen = require('screens.main')  
+local MainScreen = require('screens.mainoff')  
 local CreateRoomScreen = require('screens.createroom')
 local JoinRoomScreen = require('screens.joinroom')
 local TrackScreen = require('screens.track')
