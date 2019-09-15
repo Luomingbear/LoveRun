@@ -399,6 +399,13 @@ function TrackScreen:update(dt)
             playerB:right()
         end
     end
+
+    if self.playerA.x >= 380 * 10 then
+        info = {}
+        info[0] = true
+        info[1] = self.playerA.time
+        self.screen:view("game/finish", info)
+    end
 end
 
 function TrackScreen:draw()
@@ -429,6 +436,7 @@ end
 
 function TrackScreen:keypressed(key)
     if key == keys.DPad_right then
+        self.footLeft:setTag("Tap")
         if self.lastPressed ~= keys.DPad_right then
             self.lastPressed = key
             self.playerA:right()
@@ -436,6 +444,7 @@ function TrackScreen:keypressed(key)
             self.playerA:fall()
         end
     elseif key == keys.DPad_left then
+        self.footRight:setTag("Tap")
         if self.lastPressed ~= keys.DPad_left then
             self.lastPressed = key
             self.playerA:left()
@@ -443,12 +452,23 @@ function TrackScreen:keypressed(key)
             self.playerA:fall()
         end
     elseif key == keys.A then
+        self.footJump:setTag("Tap")
         if self.lastPressed ~= nil then
             self.lastPressed = key
             self.playerA:jump()
         end
     elseif key == keys.B then
         self.screen:view('/', 'reset')
+    end
+end
+
+function TrackScreen:keyreleased(key)
+    if key == keys.DPad_right then
+        self.footLeft:setTag("Normal")
+    elseif key == keys.DPad_left then
+        self.footRight:setTag("Normal")
+    elseif key == keys.A then
+        self.footJump:setTag("Normal")
     end
 end
 
