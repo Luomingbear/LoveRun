@@ -28,7 +28,7 @@ local MainScreen = require('screens.mainoff')
 local CreateRoomScreen = require('screens.createroom')
 local JoinRoomScreen = require('screens.joinroom')
 local TrackScreen = require('screens.track')
-local FinishScreen = require('screens.finish') 
+local FinishScreen = require('screens.finishoff') 
 --
 
 

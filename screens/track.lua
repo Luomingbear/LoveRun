@@ -2,7 +2,6 @@ local class = require('lib.hump.class')
 local keys = require('lib.keys')
 local peachy  = require('lib.peachy')
 local Camera = require('lib.hump.camera')
-local robot = require("lib.robot")
 
 
 --[[
@@ -323,13 +322,13 @@ function TrackScreen:init(ScreenManager)
     self.camera = Camera(0, 180)
     self.isServer = true -- 当前玩家是否是服务端
     self.playerA = Athlete(0, 180,love.graphics.newImage("assets/images/runer1run.png"))
-    self.playerB = nil
     self.background = Background(self.playerA)
     self.footLeft = peachy.new("assets/images/footleft.json", love.graphics.newImage("assets/images/footleft.png"), "Normal")
     self.footRight = peachy.new("assets/images/footright.json", love.graphics.newImage("assets/images/footright.png"), "Normal")
     self.footJump = peachy.new("assets/images/jump.json", love.graphics.newImage("assets/images/jump.png"), "Normal")
     self.hurdleTable1 = {}
     self.hurdleTable2 = {}
+    self.robot = require("lib.robot")
     for i=1,10 do
         table.insert(self.hurdleTable1, i, hurdle(380 * i, 185))
         table.insert(self.hurdleTable2, i, hurdle(380 * i, 150))
@@ -337,15 +336,16 @@ function TrackScreen:init(ScreenManager)
 end
 
 function TrackScreen:activate(data)
-    if  (data ~=nil and data.online ) then
-        if self.playerB == nil then
+    self.isServer = data.isServer
+    if  (data ~=nil and data.online == false ) then
+        if self.playerB ==nil then
             self.playerB = Athlete(0, 140,love.graphics.newImage("assets/images/runer2run.png"))
         end
-        self.playerB:rest(0,140,false,data.isServer)
-        self.isServer = data.isServer
+        self.robot:init(true)
     else
-        robot:init()
+        self.robot:init(false)
     end
+    self.playerB:rest(0,140,false,data.isServer)
     self.playerA:rest(0,180,true,data.isServer)
     for i=1,10 do
         self.hurdleTable1[i]:rest()
@@ -355,7 +355,7 @@ end
 
 function TrackScreen:update(dt)
     socket:update(dt)
-    robot:update(dt)
+    self.robot:update(dt)
     self.background:update(dt)
     -- 更新玩家的状态
     self.playerA:update(dt)
@@ -390,21 +390,22 @@ function TrackScreen:update(dt)
         info = love.thread.getChannel("client"):pop()
     end
     if info ~= nil then
+        print("收到了塑化剂")
         if info.key == "j" then
             -- 跳跃
-            playerB:jump()
+            self.playerB:jump()
         elseif info.key == "f" then
             -- 摔跤
-            playerB:fall()
+            self.playerB:fall()
         elseif info.key == "e" then
             -- 移动左脚
-            playerB:left()
+            self.playerB:left()
         elseif info.key =="r" then
             -- 移动右脚
-            playerB:right()
+            self.playerB:right()
         end
     end
-
+    -- 检查是否到达终点
     if self.playerA.x >= 380 * 11 then
         info = {}
         info[0] = true
