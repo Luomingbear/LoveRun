@@ -456,6 +456,12 @@ function TrackScreen:update(dt)
         info[1] = self.playerA.time
         self.screen:view("game/finish", info)
     end
+    if self.playerB.x >= 380 * 11 then
+        info = {}
+        info[0] = false
+        info[1] = self.playerB.time
+        self.screen:view("game/finish", info)
+    end
 end
 
 function TrackScreen:draw()
