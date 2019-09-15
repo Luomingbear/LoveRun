@@ -478,7 +478,7 @@ function TrackScreen:draw()
 
     -- 终点线
     love.graphics.setColor(255,255,255)
-    love.graphics.line(380 * 11, 205, 380 * 11 - 20, 155)
+    love.graphics.line(380 * 11 + 30, 210, 380 * 11 + 15, 155)
     
     -- 绘制玩家
     self.playerA:draw()
