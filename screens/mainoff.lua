@@ -8,7 +8,7 @@ local MainScreen = class {}
 
 -- 首页的场景
 function MainScreen:init(ScreenManager)
-	logoImg = love.graphics.newImage("assets/images/logo.png")
+	logoImg = love.graphics.newImage("assets/images/tittle.png")
 	arrowImg = love.graphics.newImage("assets/images/arrow.png")
 	self.screen = ScreenManager
 end
@@ -24,11 +24,11 @@ end
 function MainScreen:draw()
 	love.graphics.clear(31,28,24)
 	love.graphics.setColor(255,255,255)
-	love.graphics.draw(logoImg,26,21,0,1,1)
+	love.graphics.draw(logoImg,35,21,0,1,1)
 	-- 绘制文本
 	love.graphics.setColor(255,255,255)
-	drawText("开始游戏",128,131,16)
-	drawText("退出游戏",128,171,16)
+	drawText("开始游戏",128,131)
+	drawText("退出游戏",128,171)
 	love.graphics.setColor(255,255,255)
     if self.select==0 then
 		love.graphics.draw(arrowImg,105,131,0,1,1)
