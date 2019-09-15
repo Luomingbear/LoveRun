@@ -20,7 +20,7 @@ require('lib.compatibility')
 require('lib.colors')
 -- Load Libraries
 local ScreenManager = require('lib.ScreenManager')
-socket = require('lib.socket_enet')
+socket = require('lib.socket_m')
 --
 
 -- Load Screens
@@ -46,6 +46,8 @@ function love.load()
 	
 	-- Load the main screen. Only needed if you didn't register a screen with path "/"
 	--screenManager:view('test/index', 'Wow!')
+	-- 初始化网络
+	socket:load()
 end
 --
 

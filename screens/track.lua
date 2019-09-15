@@ -78,6 +78,8 @@ local function Athlete(x, y,img)
     local object = {
         x = x, -- x坐标
         y = y, -- y坐标
+        mine = true, --true：表示这个是玩家本人，false表示这个是对手
+        isServer = true, --是否是服务端
         width = 24,
         height = 30,
         yVelocity = 0, -- y方向速度
@@ -102,9 +104,11 @@ local function Athlete(x, y,img)
         }
     }
 
-    function object:rest(x,y)
+    function object:rest(x,y,mine,isServer)
         self.x = x
         self.y = y
+        self.mine = mine --true：表示这个是玩家本人，false表示这个是对手
+        self.isServer = isServer --是否是服务端
         self.time = 0
         self.yVelocity = 0 -- y方向速度
         self.jumpHeight = -120 -- 跳跃高度
@@ -138,6 +142,15 @@ local function Athlete(x, y,img)
         if self.yVelocity == 0 then
             self.yVelocity = self.jumpHeight
         end
+
+        -- 发生数据到另一台设备
+        if self.mine then
+            if self.isServer then
+                socket:serverSend({k = "j",p = self.x})
+            else
+                socket:clientSend({k = "j",p = self.x})
+            end
+        end
     end
 
     function object:left()
@@ -148,6 +161,14 @@ local function Athlete(x, y,img)
         self.sprite:setTag("Left")
         self.xVelocity = self.force
         self.statusTime = self.time
+        -- 发生数据到另一台设备
+        if self.mine then
+            if self.isServer then
+                socket:serverSend({k = "e",p = self.x})
+            else
+                socket:clientSend({k = "e",p = self.x})
+            end
+        end
     end
 
     function object:right()
@@ -158,6 +179,15 @@ local function Athlete(x, y,img)
         self.sprite:setTag("Right")
         self.xVelocity = self.force
         self.statusTime = self.time
+
+        -- 发生数据到另一台设备
+        if self.mine then
+            if self.isServer then
+                socket:serverSend({k = "r",p = self.x})
+            else
+                socket:clientSend({k = "r",p = self.x})
+            end
+        end
     end
 
     function object:fall()
@@ -167,6 +197,15 @@ local function Athlete(x, y,img)
         self.status = "Fall"
         self.sprite:setTag("Fall")
         self.statusTime = self.time
+
+        -- 发生数据到另一台设备
+        if self.mine then
+            if self.isServer then
+                socket:serverSend({k = "f",p = self.x})
+            else
+                socket:clientSend({k = "f",p = self.x})
+            end
+        end
     end
  
     function object:update(dt)
@@ -270,23 +309,33 @@ end
 function TrackScreen:init(ScreenManager)
     self.screen = ScreenManager
     self.camera = Camera(0, 180)
+    self.isServer = true -- 当前玩家是否是服务端
     self.playerA = Athlete(0, 180,love.graphics.newImage("assets/images/runer1run.png"))
-    self.playerB = Athlete(0, 140,love.graphics.newImage("assets/images/runer2run.png"))
+    self.playerB = nil
     self.background = Background(self.playerA)
     self.footLeft = peachy.new("assets/images/footleft.json", love.graphics.newImage("assets/images/footleft.png"), "Normal")
     self.footRight = peachy.new("assets/images/footright.json", love.graphics.newImage("assets/images/footright.png"), "Normal")
     self.footJump = peachy.new("assets/images/jump.json", love.graphics.newImage("assets/images/jump.png"), "Normal")
-    self.hurdleTable = {}
+    self.hurdleTable1 = {}
+    self.hurdleTable2 = {}
     for i=1,10 do
-        table.insert(self.hurdleTable, i, hurdle(380 * i, 185))
+        table.insert(self.hurdleTable1, i, hurdle(380 * i, 185))
+        table.insert(self.hurdleTable2, i, hurdle(380 * i, 150))
     end
 end
 
-function TrackScreen:activate()
-    self.playerA:rest(0,180)
-    self.playerB:rest(0,140)
+function TrackScreen:activate(data)
+    if  (data ~=nil and data.online ) then
+        if self.playerB == nil then
+            self.playerB = Athlete(0, 140,love.graphics.newImage("assets/images/runer2run.png"))
+        end
+        self.playerB:rest(0,140,false,data.isServer)
+        self.isServer = data.isServer
+    end
+    self.playerA:rest(0,180,true,data.isServer)
     for i=1,10 do
-        self.hurdleTable[i]:rest()
+        self.hurdleTable1[i]:rest()
+        self.hurdleTable2[i]:rest()
     end
 end
 
@@ -294,21 +343,51 @@ function TrackScreen:update(dt)
     self.background:update(dt)
     -- 更新玩家的状态
     self.playerA:update(dt)
-    self.playerB:update(dt)
+    if self.playerB ~=nil then
+        self.playerB:update(dt)
+    end
     -- 更新按钮
     self.footLeft:update(dt)
     self.footRight:update(dt)
     self.footJump:update(dt)
     -- 更新栏杆
     for i=1,10 do
-        if (self.hurdleTable[i].status == "Good" and testRect(self.playerA, self.hurdleTable[i]) )then
-            self.hurdleTable[i]:broken()
+        if (self.hurdleTable1[i].status == "Good" and testRect(self.playerA, self.hurdleTable1[i]) )then
+            self.hurdleTable1[i]:broken()
             self.playerA:fall()
+        end
+        if self.playerB ~=nil then
+            if (self.hurdleTable2[i].status == "Good" and testRect(self.playerB, self.hurdleTable2[i]) )then
+                self.hurdleTable2[i]:broken()
+                self.playerB:fall()
+            end
         end
     end
 
     -- 移动相机
     self.camera:lookAt(self.playerA.x, 120)
+    -- 接收网络数据
+    info = nil
+    if self.isServer then
+        info = love.thread.getChannel("server"):pop()
+    else
+        info = love.thread.getChannel("client"):pop()
+    end
+    if info ~= nil then
+        if info.key == "j" then
+            -- 跳跃
+            playerB:jump()
+        elseif info.key == "f" then
+            -- 摔跤
+            playerB:fall()
+        elseif info.key == "e" then
+            -- 移动左脚
+            playerB:left()
+        elseif info.key =="r" then
+            -- 移动右脚
+            playerB:right()
+        end
+    end
 end
 
 function TrackScreen:draw()
@@ -319,12 +398,15 @@ function TrackScreen:draw()
     self.background:draw()
     -- 绘制栏杆
     for i=1,10 do
-        self.hurdleTable[i]:draw()
+        self.hurdleTable1[i]:draw()
+        self.hurdleTable2[i]:draw()
     end
 
     -- 绘制玩家
     self.playerA:draw()
-    self.playerB:draw()
+    if self.playerB ~=nil then
+        self.playerB:draw()
+    end
 
     -- 绘制按钮
     self.footLeft:draw(self.playerA.x - 160 + 17,216)

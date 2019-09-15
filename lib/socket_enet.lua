@@ -1,20 +1,5 @@
 local enet = require("enet")
 
---需要在线程中使用，示例如下
---local url = "\"localhost:6789\""
-
---local threadCode = [[
---    local socket = require("socket_enet")
---    socket:connect(
---    ]]..url..")"
-
---    local thread
-
---    function love.load()
---        thread = love.thread.newThread(threadCode)
---        thread:start()
---    end
-
 socket = {}
 
 local serverHost = nil
@@ -22,6 +7,7 @@ local clientHost = nil
 
 --server
 function socket:on(url)
+    love.thread.getChannel("server"):push({key="开始",data=url})
     serverHost = enet.host_create(url)
     local event = nil
     while true do
@@ -29,11 +15,14 @@ function socket:on(url)
         while event do
           if event.type == "receive" then
             print("Got message: ", event.data, event.peer)
+            love.thread.getChannel("server"):push({key="receive",data=event.data})
             event.peer:send( "pong" )
           elseif event.type == "connect" then
             print(event.peer, "connected.")
+            love.thread.getChannel("server"):push({key="connect",data=nil})
           elseif event.type == "disconnect" then
             print(event.peer, "disconnected.")
+            love.thread.getChannel("server"):push({key="disconnect",data=nil})
           end
           event = serverHost:service()
         end
@@ -66,12 +55,15 @@ function socket:connect(url)
       while event do
         if event.type == "receive" then
           print("Got message: ", event.data, event.peer)
+          love.thread.getChannel("client"):push({key="receive",data=event.data})
           event.peer:send( "ping" )
         elseif event.type == "connect" then
           print(event.peer, "connected.")
+          love.thread.getChannel("client"):push({key="connect",data=event.data})
           event.peer:send( "ping" )
         elseif event.type == "disconnect" then
           print(event.peer, "disconnected.")
+          love.thread.getChannel("client"):push({key="disconnect",data=event.data})
         end
         event = clientHost:service()
       end
@@ -97,5 +89,4 @@ function socket:destroy()
   end
 end
 
-
-return socket
+---------------------- 网络管理 ------------------
