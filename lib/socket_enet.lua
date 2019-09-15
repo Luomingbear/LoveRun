@@ -88,4 +88,14 @@ function socket:clientSend(data)
 end
 
 
+function socket:destroy()
+  if serverHost then
+    serverHost:destroy()
+  end
+  if clientHost then
+    clientHost:destroy()
+  end
+end
+
+
 return socket
