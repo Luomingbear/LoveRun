@@ -10,12 +10,7 @@ function rect(text,x,y)
     }
 
     function object:update(dt)
-        local info = love.thread.getChannel("server").pop()
-        if info == nil then
-        elseif info.key == "s" then 
-            -- 开始游戏        
-            self.screen:view("game/track",{online = true ,isServer = false})
-        end 
+    
     end
 
 
@@ -42,9 +37,40 @@ function JoinRoomScreen:activate()
     love.graphics.clear(100,100,100)
 end
 
+function JoinRoomScreen:update(dt)
+	socket:update(dt)
+    info = love.thread.getChannel("client"):pop()
+    if info == nil then
+    elseif info.key == "s" then
+        -- 开始游戏 
+        self.screen:view("game/track",{online = true ,isServer = false})
+    elseif info.key =="l" then
+        -- 离开房间
+        self.screen:view("/")
+    elseif info.key =="connect" then
+        -- 连接上
+        socket:clientSend({key="i",data = nil})
+    elseif info.key =="disconnect" then
+        -- 断开联接
+        self.screen:view("/")
+    end 
+end
+
 function JoinRoomScreen:draw()
     love.graphics.clear(0,100,100)
     love.graphics.print("Join")
 
 end
+
+function JoinRoomScreen:keypressed(key)
+    if (key == keys.A) then
+        -- socket:connect("\"192.168.0.17:6789\"")
+        socket:connect("\"localhost:6789\"")
+    elseif key == keys.B then
+        --back home
+        socket:destroy()
+        self.screen:view('/', 'reset')
+    end
+end
+
 return JoinRoomScreen

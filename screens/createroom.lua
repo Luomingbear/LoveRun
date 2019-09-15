@@ -27,19 +27,20 @@ function CreateRoomScreen:activate()
 end
 
 function CreateRoomScreen:update(dt) 
+	socket:update(dt)
     self.t = self.t + dt
     if self.playerIn then
         time = math.floor( self.t )
         self.dot = time % 4
     end
 
-    -- 打印 线程收到的数据
+    -- 接收服务端发送的数据
     info = love.thread.getChannel("server"):pop()
     if info ~= nil then
-        print("----------------------------start-------------------------")
-        print(string.format("key:%s,data:%s",info.key,info.data))
-        print("------------------------------end-----------------------")
-
+        print(info)
+        if info.key == "i" then
+            self.playerIn = true
+        end
     end
 end
 
@@ -78,12 +79,12 @@ end
 
 function CreateRoomScreen:keypressed(key)
     if (key == keys.A) then
-        socket:serverSend({k = "s"})
+        socket:serverSend({key = "s",data = nil})
         self.screen:view("game/track",{online = self.playerIn,isServer = true})
     elseif key == keys.B then
         --back home
-        self.screen:view('/', 'reset')
         socket:destroy()
+        self.screen:view('/', 'reset')
     end
 end
 

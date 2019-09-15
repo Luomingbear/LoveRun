@@ -35,6 +35,7 @@ function FinishScreen:activate(arg)
 end
 
 function FinishScreen:update(dt)
+	socket:update(dt)
     if self.info[0] then
         self.pSystem:update(dt)
     end
