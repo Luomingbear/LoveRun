@@ -3,6 +3,7 @@
 local class = require('lib.hump.class')
 local keys = require('lib.keys')
 
+
 local MainScreen = class {}
 
 -- 首页的场景
@@ -17,6 +18,7 @@ function MainScreen:activate()
 end
 
 function MainScreen:update(dt)
+	socket:update(dt)
 end
 
 function MainScreen:draw()

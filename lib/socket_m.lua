@@ -24,58 +24,67 @@ info = love.thread.getChannel("client"):pop() --info的格式 {key="recive",data
 
 ]]
 
-
+local sockets = require("lib.socket_enet")
 local manager = {}
 
-function manager:load()
-    local threadCode = [[
-    local destory = false
-    local sock = require("lib.socket_enet")
-    while (true) do
-        -- 接收跨线程数据
-        info = love.thread.getChannel("socket"):pop()
-        if info == nil then
-        elseif info.key == "on" then
-          sock:on(info.data)
-        elseif info.key == "serverSend" then
-          sock:serverSend(info.data)
-        elseif info.key == "connect" then
-          sock:connect(info.data)
-        elseif info.key == "clientSend" then
-          sock:clientSend(info.data)
-        elseif info.key == "destroy" then
-          sock:destroy()
-        end
+local threadCode = [[
+local sockets = require("lib.socket_enet")
+love.thread.getChannel("debug"):push({key="load"})
+while true do
+    -- 接收跨线程数据
+    local info = love.thread.getChannel("socket"):pop()
+    if info == nil then
+    elseif info.key == "on" then
+      love.thread.getChannel("debug"):push(info)
+      sockets:on(info.data)
+    elseif info.key == "serverSend" then
+      sockets:serverSend(info.data)
+      love.thread.getChannel("debug"):push(info.data)
+    elseif info.key == "connect" then
+      sockets:connect(info.data)
+      love.thread.getChannel("debug"):push(info.data)
+    elseif info.key == "clientSend" then
+      sockets:clientSend(info.data)
+      love.thread.getChannel("debug"):push(info.data)
+    elseif info.key == "destroy" then
+      sockets:destroy()
+      love.thread.getChannel("debug"):push({key = "销毁",data = nil})
     end
-    ]]
+end
+]]
+
+function manager:load()
     self.thread = love.thread.newThread(threadCode)
     self.thread:start()
 end
 
+function manager:update(dt)
+  local info = love.thread.getChannel("debug"):pop()
+  if info ~= nil then
+    print(string.format("debug:%s",info.key))
+  end
+end
+
 -- 开启server
 function manager:on()
-  love.thread.getChannel("socket"):push({key="on", data = "\"localhost:6789\""})
-  print("\non\n")
+  love.thread.getChannel("socket"):push({key="on", data = "localhost:6789"})
 end
 
 function manager:serverSend(info)
+  -- sockets:serverSend(info)
   love.thread.getChannel("socket"):push({key="serverSend", data = info})
-  print(string.format("\nserverSend:%s\n",info.k))
 end
 
 function manager:connect(url)
     love.thread.getChannel("socket"):push({key="connect", data = url})
-    print("\nconnect\n")
 end
 
 function manager:clientSend(info)
     love.thread.getChannel("socket"):push({key="clientSend", data = info})
-    print("\nclientSend\n")
   end
 
 function manager:destroy()
     love.thread.getChannel("socket"):push({key="destroy", data = nil})
-    print("\ndestroy\n")
 end
 
 return manager

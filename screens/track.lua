@@ -148,9 +148,9 @@ local function Athlete(x, y,img)
         -- 发生数据到另一台设备
         if self.mine then
             if self.isServer then
-                socket:serverSend({k = "j",p = self.x})
+                socket:serverSend({key = "j",p = self.x})
             else
-                socket:clientSend({k = "j",p = self.x})
+                socket:clientSend({key = "j",p = self.x})
             end
         end
     end
@@ -169,9 +169,9 @@ local function Athlete(x, y,img)
         -- 发生数据到另一台设备
         if self.mine then
             if self.isServer then
-                socket:serverSend({k = "e",p = self.x})
+                socket:serverSend({key = "e",p = self.x})
             else
-                socket:clientSend({k = "e",p = self.x})
+                socket:clientSend({key = "e",p = self.x})
             end
         end
     end
@@ -191,9 +191,9 @@ local function Athlete(x, y,img)
         -- 发生数据到另一台设备
         if self.mine then
             if self.isServer then
-                socket:serverSend({k = "r",p = self.x})
+                socket:serverSend({key = "r",p = self.x})
             else
-                socket:clientSend({k = "r",p = self.x})
+                socket:clientSend({key = "r",p = self.x})
             end
         end
     end
@@ -209,9 +209,9 @@ local function Athlete(x, y,img)
         -- 发生数据到另一台设备
         if self.mine then
             if self.isServer then
-                socket:serverSend({k = "f",p = self.x})
+                socket:serverSend({key = "f",p = self.x})
             else
-                socket:clientSend({k = "f",p = self.x})
+                socket:clientSend({key = "f",p = self.x})
             end
         end
     end
@@ -351,6 +351,7 @@ function TrackScreen:activate(data)
 end
 
 function TrackScreen:update(dt)
+	socket:update(dt)
     self.background:update(dt)
     -- 更新玩家的状态
     self.playerA:update(dt)

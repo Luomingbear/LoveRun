@@ -24,7 +24,7 @@ socket = require('lib.socket_m')
 --
 
 -- Load Screens
-local MainScreen = require('screens.main')  
+local MainScreen = require('screens.mainoff')  
 local CreateRoomScreen = require('screens.createroom')
 local JoinRoomScreen = require('screens.joinroom')
 local TrackScreen = require('screens.track')
@@ -34,8 +34,10 @@ local FinishScreen = require('screens.finish')
 
 -- Load Game
 function love.load()
+	-- 初始化网络
+	socket:load()
+
 	local screenManager = ScreenManager()
-	
 	-- Register your screens here (A screen with the path '/' is mandatory!)
 	screenManager:register('/', MainScreen)
 	screenManager:register('room/create', CreateRoomScreen)
@@ -46,8 +48,6 @@ function love.load()
 	
 	-- Load the main screen. Only needed if you didn't register a screen with path "/"
 	--screenManager:view('test/index', 'Wow!')
-	-- 初始化网络
-	socket:load()
 end
 --
 
