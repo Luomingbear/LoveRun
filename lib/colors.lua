@@ -1,11 +1,9 @@
 colors = {}
 
-colors.bluePurple = {r=44,g=39,b=72} --蓝紫色
-colors.gray = (100,100,129) --灰色
-colors.purple = (148,134,168) --紫色
-colors.camel = (215,178,176) --驼色 
-colors.beige = (145,223,126) --米色
-colors.red = (181,74,92) --红色
-colors.cyan = (142,223,239) --青色
+colors.backgroud = {31,28,24,255} --背景颜色
+colors.zongse = {180,170,156,255} --棕色
+colors.white = {255,255,255,255} --白色
+colors.red = {195,64,80,255} --红色
+colors.red = {95,205,228,255} --蓝色
 
 return colors

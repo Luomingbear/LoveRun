@@ -20,7 +20,7 @@ function MainScreen:update(dt)
 end
 
 function MainScreen:draw()
-	love.graphics.clear(31,28,24)
+	love.graphics.clear(95,205,228)
 	love.graphics.setColor(255,255,255)
 	love.graphics.draw(logoImg,26,21,0,1,1)
 	-- 绘制文本
@@ -52,10 +52,10 @@ function MainScreen:keypressed(key)
 	elseif key == keys.A then
 		if self.select == 0 then
 			-- 进入加入房间的场景
-			info = {}
-			info[0] = false
-			info[1] = 33.44
-			self.screen:view("game/finish",info) 
+			-- info = {}
+			-- info[0] = false
+			-- info[1] = 33.44
+			self.screen:view("room/create") 
 		elseif self.select == 1 then
         	self.screen:view("game/track")
 		elseif self.select == 2 then
