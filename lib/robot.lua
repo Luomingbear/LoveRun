@@ -36,11 +36,12 @@ end
 
 
 function Robot:update(dt)
-    if self.open == false then
+    self.t = self.t + dt
+    if (self.open == false or self.t <3) then
         return
     end
 
-    self.t = self.t + dt
+    
     dif = self.t - self.statusTime
     if ( self.status == "Ready" and dif > self.statusDuration.ready )then
         self.status = "Left"

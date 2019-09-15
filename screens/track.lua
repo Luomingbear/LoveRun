@@ -303,8 +303,8 @@ end
 -- 倒数器
 local function countDownTimer()
     local object = {
-        x = love.graphics.getWidth() / 2,
-        y = love.graphics.getHeight() / 2,
+        x = 160,
+        y = 120,
         time = 3
     }
 
@@ -326,10 +326,10 @@ local function countDownTimer()
     function object:draw()
         if self.time > 0 then
             love.graphics.setColor(255,255,255)
-            love.graphics.print(tostring(self.time), self.x, self.y)
+            drawText(tostring(self.time), self.x, self.y)
         else
             love.graphics.setColor(255,255,255)
-            love.graphics.print("Go", self.x, self.y)
+            drawText("Go", self.x, self.y)
         end
     end
 
@@ -370,8 +370,7 @@ end
 
 function TrackScreen:activate(data)
     self.isServer = data.isServer
-    self.timer:setUp()
-    if  (data ~=nil and data.online ) then
+    if  (data == nil or data.online == false ) then
         if self.playerB == nil then
             self.playerB = Athlete(0, 140,love.graphics.newImage("assets/images/runer2run.png"))
         end
@@ -385,6 +384,7 @@ function TrackScreen:activate(data)
         self.hurdleTable1[i]:rest()
         self.hurdleTable2[i]:rest()
     end
+    self.timer:setUp()
 end
 
 function TrackScreen:update(dt)
@@ -425,7 +425,6 @@ function TrackScreen:update(dt)
         info = love.thread.getChannel("client"):pop()
     end
     if info ~= nil then
-        print("收到了塑化剂")
         if info.key == "j" then
             -- 跳跃
             self.playerB:jump()
