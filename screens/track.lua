@@ -2,6 +2,7 @@ local class = require('lib.hump.class')
 local keys = require('lib.keys')
 local peachy  = require('lib.peachy')
 local Camera = require('lib.hump.camera')
+local robot = require("lib.robot")
 
 
 --[[
@@ -342,6 +343,8 @@ function TrackScreen:activate(data)
         end
         self.playerB:rest(0,140,false,data.isServer)
         self.isServer = data.isServer
+    else
+        robot:init()
     end
     self.playerA:rest(0,180,true,data.isServer)
     for i=1,10 do
@@ -351,7 +354,8 @@ function TrackScreen:activate(data)
 end
 
 function TrackScreen:update(dt)
-	socket:update(dt)
+    socket:update(dt)
+    robot:update(dt)
     self.background:update(dt)
     -- 更新玩家的状态
     self.playerA:update(dt)
