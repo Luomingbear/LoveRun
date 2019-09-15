@@ -303,8 +303,8 @@ end
 -- 倒数器
 local function countDownTimer()
     local object = {
-        x = 160,
-        y = 120,
+        x = 0,
+        y = 100,
         time = 3
     }
 
@@ -326,10 +326,10 @@ local function countDownTimer()
     function object:draw()
         if self.time > 0 then
             love.graphics.setColor(255,255,255)
-            drawText(tostring(self.time), self.x, self.y)
+            drawTextBig(tostring(self.time), self.x, self.y)
         else
             love.graphics.setColor(255,255,255)
-            drawText("Go", self.x, self.y)
+            drawTextBig("Go", self.x, self.y)
         end
     end
 
@@ -460,6 +460,10 @@ function TrackScreen:draw()
         self.hurdleTable2[i]:draw()
     end
 
+    -- 终点线
+    love.graphics.setColor(255,255,255)
+    love.graphics.line(380 * 11, 205, 380 * 11 - 20, 155)
+    
     -- 绘制玩家
     self.playerA:draw()
     if self.playerB ~=nil then
@@ -470,10 +474,6 @@ function TrackScreen:draw()
     self.footLeft:draw(self.playerA.x - 160 + 17,216)
     self.footRight:draw(self.playerA.x - 160 +47,216)
     self.footJump:draw(self.playerA.x - 160 +274,216)
-
-    -- 终点线
-    love.graphics.setColor(255,255,255)
-    love.graphics.line(380 * 11, 205, 380 * 11 - 20, 155)
 
     self.timer:draw()
 

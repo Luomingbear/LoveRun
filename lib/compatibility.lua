@@ -20,3 +20,8 @@ function drawText(text,x,y,size)
     love.graphics.setFont(font)
     love.graphics.print(text,x,y)
 end
+fontBig = love.graphics.newFont("assets/fonts/fz.ttf",38)
+function drawTextBig(text,x,y)
+    love.graphics.setFont(fontBig)
+    love.graphics.print(text,x,y)
+end

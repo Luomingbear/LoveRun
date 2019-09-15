@@ -68,7 +68,7 @@ function FinishScreen:draw()
     --绘制时间
     love.graphics.setColor(255,255,255)
     drawText("总计耗时：",104,120,14)
-    drawText(string.format("%2ss",self.info[1]),176,120,14)
+    drawText(string.format("%.2fs",self.info[1]),182,120,14)
     --绘制右下角的按钮
     -- love.graphics.setColor(180,170,156)
     drawText("A：知道了",223,176,14)
