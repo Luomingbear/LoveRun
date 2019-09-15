@@ -2,7 +2,7 @@ local class = require('lib.hump.class')
 local keys = require('lib.keys')
 local peachy  = require('lib.peachy')
 local Camera = require('lib.hump.camera')
-
+local Timer = require('lib.hump.timer')
 
 --[[
     可以滚动的图片
@@ -254,9 +254,6 @@ local function Athlete(x, y,img)
     end
 
     function object:draw()
-        love.graphics.setColor(148,134,168)
-        love.graphics.rectangle("fill", self.x, self.y, self.width, self.height) -- 碰撞盒
-        love.graphics.setColor(255,255,255)
         self.sprite:draw(self.x, self.y)
     end
 
@@ -303,6 +300,41 @@ local function hurdle(x, y)
     return object
 end
 
+-- 倒数器
+local function countDownTimer()
+    local object = {
+        x = love.graphics.getWidth() / 2,
+        y = love.graphics.getHeight() / 2,
+        time = 3
+    }
+
+    function object:count()
+        self.time = self.time - 1
+        if self.time == 0 then
+            Timer.clear()
+        end
+    end
+
+    function object:setUp()
+        Timer.every(1, function() self:count() end)
+    end
+
+    function object:update(dt)
+        Timer.update(dt)
+    end
+
+    function object:draw()
+        if self.time > 0 then
+            love.graphics.setColor(255,255,255)
+            love.graphics.print(tostring(self.time), self.x, self.y)
+        else
+            love.graphics.setColor(255,255,255)
+            love.graphics.print("Go", self.x, self.y)
+        end
+    end
+
+    return object
+end
 
 --------------------------场景class--------------------
 local TrackScreen = class {}
@@ -323,6 +355,7 @@ function TrackScreen:init(ScreenManager)
     self.isServer = true -- 当前玩家是否是服务端
     self.playerA = Athlete(0, 180,love.graphics.newImage("assets/images/runer1run.png"))
     self.playerB = nil
+    self.timer = countDownTimer()
     self.background = Background(self.playerA)
     self.footLeft = peachy.new("assets/images/footleft.json", love.graphics.newImage("assets/images/footleft.png"), "Normal")
     self.footRight = peachy.new("assets/images/footright.json", love.graphics.newImage("assets/images/footright.png"), "Normal")
@@ -336,6 +369,7 @@ function TrackScreen:init(ScreenManager)
 end
 
 function TrackScreen:activate(data)
+    self.timer:setUp()
     if  (data ~=nil and data.online ) then
         if self.playerB == nil then
             self.playerB = Athlete(0, 140,love.graphics.newImage("assets/images/runer2run.png"))
@@ -351,6 +385,7 @@ function TrackScreen:activate(data)
 end
 
 function TrackScreen:update(dt)
+    self.timer:update(dt)
 	socket:update(dt)
     self.background:update(dt)
     -- 更新玩家的状态
@@ -436,11 +471,13 @@ function TrackScreen:draw()
     love.graphics.setColor(255,255,255)
     love.graphics.line(380 * 11, 205, 380 * 11 - 20, 155)
 
+    self.timer:draw()
+
     self.camera:detach()
 end
 
 function TrackScreen:keypressed(key)
-    if key == keys.DPad_right then
+    if key == keys.DPad_right and self.timer.time == 0 then
         self.footLeft:setTag("Tap")
         if self.lastPressed ~= keys.DPad_right then
             self.lastPressed = key
@@ -448,7 +485,7 @@ function TrackScreen:keypressed(key)
         else
             self.playerA:fall()
         end
-    elseif key == keys.DPad_left then
+    elseif key == keys.DPad_left and self.timer.time == 0 then
         self.footRight:setTag("Tap")
         if self.lastPressed ~= keys.DPad_left then
             self.lastPressed = key
