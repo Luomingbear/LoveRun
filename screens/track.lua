@@ -84,12 +84,11 @@ local function Athlete(x, y,img)
         height = 30,
         yVelocity = 0, -- y方向速度
         jumpHeight = -130, -- 跳跃高度
-        speed = 180, -- 速度
+        speed = 200, -- 速度
         gravity = -240, -- 重力
         ground = y, -- 地面坐标
-        t = 0, -- 时间
-        fallDuration = 0,
-        status = '', --状态
+        time = 0, -- 时间
+        status = "Idle", --状态
         stausTime = 0, -- 切换状态时的时间
         sprite = peachy.new("assets/images/runer2run.json", img, "Ready"),
         -- 每一个状态动画执行的时长
@@ -115,13 +114,16 @@ local function Athlete(x, y,img)
         self.speed = 180 -- 速度
         self.gravity = -240 -- 重力
         self.ground = y -- 地面坐标
-        self.status = ''
+        self.status = "Idle"
         self.statusTime = 0
         self.sprite:setTag("Idle")
     end
 
     function object:jump()
-        if self.time - self.statusTime < self.statusDuration.jump then
+        --[[if self.time - self.statusTime < self.statusDuration.jump then
+            return
+        end]]--
+        if self.status == "Fall" then
             return
         end
         self.statusTime = self.time
@@ -154,7 +156,10 @@ local function Athlete(x, y,img)
     end
 
     function object:left()
-        if self.time - self.statusTime < self.statusDuration.left then
+        --[[if self.time - self.statusTime < self.statusDuration.left then
+            return
+        end]]--
+        if self.status == "Fall" then
             return
         end
         self.status = "Left"
@@ -172,7 +177,10 @@ local function Athlete(x, y,img)
     end
 
     function object:right()
-        if self.time - self.statusTime < self.statusDuration.right then
+        --[[if self.time - self.statusTime < self.statusDuration.right then
+            return
+        end]]--
+        if self.status == "Fall" then
             return
         end
         self.status = "Right"
@@ -191,7 +199,7 @@ local function Athlete(x, y,img)
     end
 
     function object:fall()
-        if self.status =="Fall" then
+        if self.status == "Fall" then
             return
         end
         self.status = "Fall"
@@ -216,10 +224,13 @@ local function Athlete(x, y,img)
         -- 判断不同的
         if (self.status == "Left" and difTime > self.statusDuration.left ) then
             self.sprite:setTag("Idle")
+            self.status = "Idle"
         elseif (self.status == "Right" and difTime > self.statusDuration.right ) then
             self.sprite:setTag("Idle")
+            self.status = "Idle"
         elseif (self.status == "Fall" and difTime > self.statusDuration.fall ) then
             self.sprite:setTag("Idle")
+            self.status = "Idle"
         end
 
         -- x轴
