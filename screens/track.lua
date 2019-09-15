@@ -82,7 +82,7 @@ local function Athlete(x, y,img)
         mine = true, --true：表示这个是玩家本人，false表示这个是对手
         isServer = true, --是否是服务端
         width = 24,
-        height = 30,
+        height = 32,
         yVelocity = 0, -- y方向速度
         jumpHeight = -130, -- 跳跃高度
         speed = 200, -- 速度
@@ -404,6 +404,13 @@ function TrackScreen:update(dt)
             playerB:right()
         end
     end
+
+    if self.playerA.x >= 380 * 11 then
+        info = {}
+        info[0] = true
+        info[1] = self.playerA.time
+        self.screen:view("game/finish", info)
+    end
 end
 
 function TrackScreen:draw()
@@ -429,11 +436,16 @@ function TrackScreen:draw()
     self.footRight:draw(self.playerA.x - 160 +47,216)
     self.footJump:draw(self.playerA.x - 160 +274,216)
 
+    -- 终点线
+    love.graphics.setColor(255,255,255)
+    love.graphics.line(380 * 11, 205, 380 * 11 - 20, 155)
+
     self.camera:detach()
 end
 
 function TrackScreen:keypressed(key)
     if key == keys.DPad_right then
+        self.footLeft:setTag("Tap")
         if self.lastPressed ~= keys.DPad_right then
             self.lastPressed = key
             self.playerA:right()
@@ -441,6 +453,7 @@ function TrackScreen:keypressed(key)
             self.playerA:fall()
         end
     elseif key == keys.DPad_left then
+        self.footRight:setTag("Tap")
         if self.lastPressed ~= keys.DPad_left then
             self.lastPressed = key
             self.playerA:left()
@@ -448,12 +461,23 @@ function TrackScreen:keypressed(key)
             self.playerA:fall()
         end
     elseif key == keys.A then
+        self.footJump:setTag("Tap")
         if self.lastPressed ~= nil then
             self.lastPressed = key
             self.playerA:jump()
         end
     elseif key == keys.B then
         self.screen:view('/', 'reset')
+    end
+end
+
+function TrackScreen:keyreleased(key)
+    if key == keys.DPad_right then
+        self.footLeft:setTag("Normal")
+    elseif key == keys.DPad_left then
+        self.footRight:setTag("Normal")
+    elseif key == keys.A then
+        self.footJump:setTag("Normal")
     end
 end
 
