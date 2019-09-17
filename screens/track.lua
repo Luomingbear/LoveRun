@@ -105,7 +105,7 @@ local function Athlete(x, y,img)
             start = 0.3,
             left = 0.2,
             right = 0.2,
-            jump = 0.8,
+            jump = 0.5,
             fall = 1,
             idle = 0
         }
