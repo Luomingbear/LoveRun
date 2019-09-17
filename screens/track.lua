@@ -91,9 +91,9 @@ local function Athlete(x, y,img)
         width = 24,
         height = 32,
         yVelocity = 0, -- y方向速度
-        jumpHeight = y-50, -- 跳跃高度
+        jumpForce = 200, -- 跳跃的力量
         speed = 200, -- 速度
-        gravity = -400, -- 重力
+        gravity = 600, -- 重力
         ground = y, -- 地面坐标
         time = 0, -- 时间
         status = "Idle", --状态
@@ -105,7 +105,7 @@ local function Athlete(x, y,img)
             start = 0.3,
             left = 0.2,
             right = 0.2,
-            jump = 0.8,
+            jump = 0.5,
             fall = 1,
             idle = 0
         }
@@ -145,7 +145,7 @@ local function Athlete(x, y,img)
         self.sprite:setTag("Jump")
 
         if self.yVelocity == 0 then
-            self.yVelocity = self.jumpHeight
+            self.yVelocity = self.jumpForce
         end
 
         -- 发生数据到另一台设备
@@ -243,14 +243,14 @@ local function Athlete(x, y,img)
         elseif (self.status == "Right" and difTime < self.statusDuration.right) then
             self.x = self.x + self.speed * dt
         elseif self.status == "Jump" and difTime < self.statusDuration.jump then
-            self.x = self.x + 180 * dt
+            self.x = self.x + self.speed * dt
         elseif self.status == "Fall" and difTime < self.statusDuration.fall then
             self.x = self.x + 30 * dt
         end
 
         -- y轴
         if self.yVelocity ~= 0 then
-            self.y = self.y + self.yVelocity * dt
+            self.y = self.y - self.yVelocity * dt
             self.yVelocity = self.yVelocity - self.gravity * dt
         end
         if self.y > self.ground then
@@ -481,10 +481,10 @@ function TrackScreen:draw()
     love.graphics.line(380 * 11 + 30, 210, 380 * 11 + 15, 155)
     
     -- 绘制玩家
-    self.playerA:draw()
     if self.playerB ~=nil then
         self.playerB:draw()
     end
+    self.playerA:draw()
 
     -- 绘制按钮
     self.footLeft:draw(self.playerA.x - 160 + 17,216)

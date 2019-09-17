@@ -27,21 +27,24 @@ function MainScreen:draw()
 	love.graphics.draw(logoImg,35,21,0,1,1)
 	-- 绘制文本
 	love.graphics.setColor(255,255,255)
-	drawText("开始游戏",128,131)
-	drawText("退出游戏",128,171)
+	drawText("开始游戏",128,121)
+	drawText("关于游戏",128,156)
+	drawText("退出游戏",128,191)
 	love.graphics.setColor(255,255,255)
     if self.select==0 then
-		love.graphics.draw(arrowImg,105,131,0,1,1)
+		love.graphics.draw(arrowImg,105,121,0,1,1)
     elseif self.select==1 then
-		love.graphics.draw(arrowImg,105,171,0,1,1)
+		love.graphics.draw(arrowImg,105,156,0,1,1)
+	 elseif self.select==2 then
+			love.graphics.draw(arrowImg,105,191,0,1,1)
 	end
 end
 
 function MainScreen:keypressed(key)
 	if key == keys.DPad_down then
 		self.select = self.select + 1
-		if self.select >1 then
-			self.select = 1
+		if self.select >2 then
+			self.select = 2
 		end
 	elseif key == keys.DPad_up then
 		self.select = self.select - 1
@@ -52,6 +55,8 @@ function MainScreen:keypressed(key)
 		if self.select == 0 then
 			self.screen:view("game/track",{isServer = true,online = false}) 
 		elseif self.select == 1 then
+			self.screen:view("game/about",{isServer = true,online = false}) 
+		elseif self.select == 2 then
 			love.event.quit(0)
 		end
 	end

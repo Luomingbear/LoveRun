@@ -43,7 +43,7 @@ end
 function MainScreen:keypressed(key)
 	if key == keys.DPad_down then
 		self.select = self.select + 1
-		if self.select >2 then
+		if self.select > 2 then
 			self.select = 2
 		end
 	elseif key == keys.DPad_up then
