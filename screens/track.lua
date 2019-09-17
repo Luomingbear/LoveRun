@@ -54,7 +54,7 @@ local function Background(player)
         -- 跑道
         scrollRunway = ScrollImg(136,love.graphics.newImage("assets/images/runway.png"),1,player),
         -- 围墙
-        scrollWall = ScrollImg(94,love.graphics.newImage("assets/images/wall2.png"),2,player),
+        scrollWall = ScrollImg(94,love.graphics.newImage("assets/images/guzu.png"),2,player),
         -- 天空
         scrollSky = ScrollImg(0,love.graphics.newImage("assets/images/cloud.png"),4,player)
     }
@@ -62,7 +62,7 @@ local function Background(player)
     function object:reset()
         self.scrollRunway = ScrollImg(136,love.graphics.newImage("assets/images/runway.png"),1,player)
         -- 围墙
-        self.scrollWall = ScrollImg(94,love.graphics.newImage("assets/images/wall2.png"),2,player)
+        self.scrollWall = ScrollImg(94,love.graphics.newImage("assets/images/guzu.png"),2,player)
         -- 天空
         self.scrollSky = ScrollImg(0,love.graphics.newImage("assets/images/cloud.png"),4,player)
     end
@@ -91,8 +91,8 @@ local function Athlete(x, y,img)
         width = 24,
         height = 32,
         yVelocity = 0, -- y方向速度
-        jumpHeight = -130, -- 跳跃高度
-        speed = 200, -- 速度
+        jumpHeight = y-50, -- 跳跃高度
+        speed = 190, -- 速度
         gravity = -240, -- 重力
         ground = y, -- 地面坐标
         time = 0, -- 时间
@@ -271,8 +271,8 @@ local function hurdle(x, y)
     local object = {
         x = x, -- x坐标
         y = y, -- y坐标
-        width = 4,
-        height = 24,
+        width = 32,
+        height = 42,
         ground = y,
         status = "Good",
         sprite = peachy.new("assets/images/hurdle.json", love.graphics.newImage("assets/images/hurdle.png"), "Good")
@@ -351,7 +351,7 @@ function testRect(athlete, hurdle)
     if hurdle.status == "Bad" then
         return false
     else
-    return athlete.x<hurdle.x+hurdle.width and athlete.y<hurdle.y+hurdle.height and athlete.x+athlete.width>hurdle.x and athlete.y+athlete.height>hurdle.y
+        return athlete.x<hurdle.x+hurdle.width and athlete.y<hurdle.y+hurdle.height and athlete.x+athlete.width>hurdle.x and athlete.y+athlete.height>hurdle.y
     end
 end
 
