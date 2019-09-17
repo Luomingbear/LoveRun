@@ -6,7 +6,7 @@
     "trimmed": false,
     "spriteSourceSize": { "x": 0, "y": 0, "w": 52, "h": 32 },
     "sourceSize": { "w": 52, "h": 32 },
-    "duration": 500
+    "duration": 100
    },
    {
     "filename": "runer1run 1.aseprite",
@@ -15,7 +15,7 @@
     "trimmed": false,
     "spriteSourceSize": { "x": 0, "y": 0, "w": 52, "h": 32 },
     "sourceSize": { "w": 52, "h": 32 },
-    "duration": 700
+    "duration": 150
    },
    {
     "filename": "runer1run 2.aseprite",
@@ -24,7 +24,7 @@
     "trimmed": false,
     "spriteSourceSize": { "x": 0, "y": 0, "w": 52, "h": 32 },
     "sourceSize": { "w": 52, "h": 32 },
-    "duration": 700
+    "duration": 150
    },
    {
     "filename": "runer1run 3.aseprite",
@@ -33,7 +33,7 @@
     "trimmed": false,
     "spriteSourceSize": { "x": 0, "y": 0, "w": 52, "h": 32 },
     "sourceSize": { "w": 52, "h": 32 },
-    "duration": 700
+    "duration": 100
    },
    {
     "filename": "runer1run 4.aseprite",
@@ -42,7 +42,7 @@
     "trimmed": false,
     "spriteSourceSize": { "x": 0, "y": 0, "w": 52, "h": 32 },
     "sourceSize": { "w": 52, "h": 32 },
-    "duration": 50
+    "duration": 500
    },
    {
     "filename": "runer1run 5.aseprite",
@@ -51,7 +51,7 @@
     "trimmed": false,
     "spriteSourceSize": { "x": 0, "y": 0, "w": 52, "h": 32 },
     "sourceSize": { "w": 52, "h": 32 },
-    "duration": 50
+    "duration": 700
    },
    {
     "filename": "runer1run 6.aseprite",
@@ -60,7 +60,7 @@
     "trimmed": false,
     "spriteSourceSize": { "x": 0, "y": 0, "w": 52, "h": 32 },
     "sourceSize": { "w": 52, "h": 32 },
-    "duration": 50
+    "duration": 700
    },
    {
     "filename": "runer1run 7.aseprite",
@@ -69,7 +69,7 @@
     "trimmed": false,
     "spriteSourceSize": { "x": 0, "y": 0, "w": 52, "h": 32 },
     "sourceSize": { "w": 52, "h": 32 },
-    "duration": 50
+    "duration": 700
    },
    {
     "filename": "runer1run 8.aseprite",
@@ -123,7 +123,7 @@
     "trimmed": false,
     "spriteSourceSize": { "x": 0, "y": 0, "w": 52, "h": 32 },
     "sourceSize": { "w": 52, "h": 32 },
-    "duration": 100
+    "duration": 50
    },
    {
     "filename": "runer1run 14.aseprite",
@@ -132,7 +132,7 @@
     "trimmed": false,
     "spriteSourceSize": { "x": 0, "y": 0, "w": 52, "h": 32 },
     "sourceSize": { "w": 52, "h": 32 },
-    "duration": 150
+    "duration": 50
    },
    {
     "filename": "runer1run 15.aseprite",
@@ -141,7 +141,7 @@
     "trimmed": false,
     "spriteSourceSize": { "x": 0, "y": 0, "w": 52, "h": 32 },
     "sourceSize": { "w": 52, "h": 32 },
-    "duration": 150
+    "duration": 50
    },
    {
     "filename": "runer1run 16.aseprite",
@@ -150,7 +150,7 @@
     "trimmed": false,
     "spriteSourceSize": { "x": 0, "y": 0, "w": 52, "h": 32 },
     "sourceSize": { "w": 52, "h": 32 },
-    "duration": 200
+    "duration": 50
    },
    {
     "filename": "runer1run 17.aseprite",
@@ -159,7 +159,7 @@
     "trimmed": false,
     "spriteSourceSize": { "x": 0, "y": 0, "w": 52, "h": 32 },
     "sourceSize": { "w": 52, "h": 32 },
-    "duration": 150
+    "duration": 100
    },
    {
     "filename": "runer1run 18.aseprite",
@@ -168,7 +168,7 @@
     "trimmed": false,
     "spriteSourceSize": { "x": 0, "y": 0, "w": 52, "h": 32 },
     "sourceSize": { "w": 52, "h": 32 },
-    "duration": 100
+    "duration": 150
    },
    {
     "filename": "runer1run 19.aseprite",
@@ -177,7 +177,7 @@
     "trimmed": false,
     "spriteSourceSize": { "x": 0, "y": 0, "w": 52, "h": 32 },
     "sourceSize": { "w": 52, "h": 32 },
-    "duration": 100
+    "duration": 150
    },
    {
     "filename": "runer1run 20.aseprite",
@@ -186,11 +186,47 @@
     "trimmed": false,
     "spriteSourceSize": { "x": 0, "y": 0, "w": 52, "h": 32 },
     "sourceSize": { "w": 52, "h": 32 },
-    "duration": 500
+    "duration": 200
    },
    {
     "filename": "runer1run 21.aseprite",
     "frame": { "x": 1092, "y": 0, "w": 52, "h": 32 },
+    "rotated": false,
+    "trimmed": false,
+    "spriteSourceSize": { "x": 0, "y": 0, "w": 52, "h": 32 },
+    "sourceSize": { "w": 52, "h": 32 },
+    "duration": 150
+   },
+   {
+    "filename": "runer1run 22.aseprite",
+    "frame": { "x": 1144, "y": 0, "w": 52, "h": 32 },
+    "rotated": false,
+    "trimmed": false,
+    "spriteSourceSize": { "x": 0, "y": 0, "w": 52, "h": 32 },
+    "sourceSize": { "w": 52, "h": 32 },
+    "duration": 100
+   },
+   {
+    "filename": "runer1run 23.aseprite",
+    "frame": { "x": 1196, "y": 0, "w": 52, "h": 32 },
+    "rotated": false,
+    "trimmed": false,
+    "spriteSourceSize": { "x": 0, "y": 0, "w": 52, "h": 32 },
+    "sourceSize": { "w": 52, "h": 32 },
+    "duration": 100
+   },
+   {
+    "filename": "runer1run 24.aseprite",
+    "frame": { "x": 1248, "y": 0, "w": 52, "h": 32 },
+    "rotated": false,
+    "trimmed": false,
+    "spriteSourceSize": { "x": 0, "y": 0, "w": 52, "h": 32 },
+    "sourceSize": { "w": 52, "h": 32 },
+    "duration": 500
+   },
+   {
+    "filename": "runer1run 25.aseprite",
+    "frame": { "x": 1300, "y": 0, "w": 52, "h": 32 },
     "rotated": false,
     "trimmed": false,
     "spriteSourceSize": { "x": 0, "y": 0, "w": 52, "h": 32 },
@@ -202,20 +238,19 @@
   "app": "http://www.aseprite.org/",
   "version": "1.2.9",
   "format": "RGBA8888",
-  "size": { "w": 1144, "h": 32 },
+  "size": { "w": 1352, "h": 32 },
   "scale": "1",
   "frameTags": [
-   { "name": "Ready", "from": 0, "to": 1, "direction": "forward" },
-   { "name": "Start", "from": 2, "to": 3, "direction": "forward" },
-   { "name": "Left", "from": 4, "to": 7, "direction": "forward" },
-   { "name": "Right", "from": 8, "to": 11, "direction": "forward" },
-   { "name": "Fall", "from": 12, "to": 19, "direction": "forward" },
-   { "name": "Idle", "from": 20, "to": 21, "direction": "forward" }
+   { "name": "Jump", "from": 0, "to": 3, "direction": "forward" },
+   { "name": "Ready", "from": 4, "to": 5, "direction": "forward" },
+   { "name": "Start", "from": 6, "to": 7, "direction": "forward" },
+   { "name": "Left", "from": 8, "to": 11, "direction": "forward" },
+   { "name": "Right", "from": 12, "to": 15, "direction": "forward" },
+   { "name": "Fall", "from": 16, "to": 23, "direction": "forward" },
+   { "name": "Idle", "from": 24, "to": 25, "direction": "forward" }
   ],
   "layers": [
    { "name": "Layer 1", "opacity": 255, "blendMode": "normal" }
-  ],
-  "slices": [
   ]
  }
 }
