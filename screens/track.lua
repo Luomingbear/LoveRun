@@ -105,7 +105,7 @@ local function Athlete(x, y,img)
             start = 0.3,
             left = 0.2,
             right = 0.2,
-            jump = 0.2,
+            jump = 0.8,
             fall = 1,
             idle = 0
         }
@@ -138,15 +138,12 @@ local function Athlete(x, y,img)
         if self.status == "Left" then
             self.status = "Right"
             self.sprite:setTag("Right")
-            self.xVelocity = self.force
         elseif self.status == "Right" then
             self.status = "Left"    
             self.sprite:setTag("Left")
-            self.xVelocity = self.force
         else
             self.status = "Left"    
             self.sprite:setTag("Left")
-            self.xVelocity = self.force
         end
 
         if self.yVelocity == 0 then
@@ -172,7 +169,6 @@ local function Athlete(x, y,img)
         end
         self.status = "Left"
         self.sprite:setTag("Left")
-        self.xVelocity = self.force
         self.statusTime = self.time
         -- 发生数据到另一台设备
         if self.mine then
@@ -193,7 +189,6 @@ local function Athlete(x, y,img)
         end
         self.status = "Right"
         self.sprite:setTag("Right")
-        self.xVelocity = self.force
         self.statusTime = self.time
 
         -- 发生数据到另一台设备
@@ -230,22 +225,24 @@ local function Athlete(x, y,img)
         difTime = self.time - self.statusTime
 
         -- 判断不同的
-        if (self.status == "Left" and difTime > self.statusDuration.left ) then
+        if (self.status == "Left" and difTime > self.statusDuration.left) then
             self.sprite:setTag("Idle")
             self.status = "Idle"
-        elseif (self.status == "Right" and difTime > self.statusDuration.right ) then
+        elseif (self.status == "Right" and difTime > self.statusDuration.right) then
             self.sprite:setTag("Idle")
             self.status = "Idle"
-        elseif (self.status == "Fall" and difTime > self.statusDuration.fall ) then
+        elseif (self.status == "Fall" and difTime > self.statusDuration.fall) then
             self.sprite:setTag("Idle")
             self.status = "Idle"
         end
 
         -- x轴
-        if (self.status == "Left" and difTime < self.statusDuration.left ) then
+        if (self.status == "Left" and difTime < self.statusDuration.left) then
             self.x = self.x + self.speed * dt
-        elseif (self.status == "Right" and difTime < self.statusDuration.right ) then
+        elseif (self.status == "Right" and difTime < self.statusDuration.right) then
             self.x = self.x + self.speed * dt
+        elseif self.status == "Fall" and difTime < self.statusDuration.fall then
+            self.x = self.x + 30 * dt
         end
 
         -- y轴
@@ -497,17 +494,17 @@ function TrackScreen:draw()
 end
 
 function TrackScreen:keypressed(key)
-    if key == keys.DPad_right and self.timer.time == 0 then
+    if key == keys.LK5 and self.timer.time == 0 then
         self.footLeft:setTag("Tap")
-        if self.lastPressed ~= keys.DPad_right then
+        if self.lastPressed ~= keys.LK5 then
             self.lastPressed = key
             self.playerA:right()
         else
             self.playerA:fall()
         end
-    elseif key == keys.DPad_left and self.timer.time == 0 then
+    elseif key == keys.LK1 and self.timer.time == 0 then
         self.footRight:setTag("Tap")
-        if self.lastPressed ~= keys.DPad_left then
+        if self.lastPressed ~= keys.LK1 then
             self.lastPressed = key
             self.playerA:left()
         else
@@ -525,9 +522,9 @@ function TrackScreen:keypressed(key)
 end
 
 function TrackScreen:keyreleased(key)
-    if key == keys.DPad_right then
+    if key == keys.LK5 then
         self.footLeft:setTag("Normal")
-    elseif key == keys.DPad_left then
+    elseif key == keys.LK1 then
         self.footRight:setTag("Normal")
     elseif key == keys.A then
         self.footJump:setTag("Normal")

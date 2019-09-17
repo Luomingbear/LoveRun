@@ -40,12 +40,11 @@ function Robot:update(dt)
     if (self.open == false or self.t <3) then
         return
     end
-
     
     dif = self.t - self.statusTime
-    if ( self.status == "Ready" and dif > self.statusDuration.ready )then
+    if (self.status == "Ready" and dif > self.statusDuration.ready)then
         self.status = "Left"
-    elseif ( self.status == "Left" and dif > self.statusDuration.left )then
+    elseif (self.status == "Left" and dif > self.statusDuration.left)then
         ran = math.random(1,7)
         print(ran)
         if ran > 2 then
@@ -53,7 +52,7 @@ function Robot:update(dt)
         else
             self.status = "Left"
         end
-    elseif ( self.status == "Right" and dif >self.statusDuration.right )then
+    elseif (self.status == "Right" and dif >self.statusDuration.right)then
         ran = math.random(1,7)
         print(ran)
 
@@ -62,9 +61,9 @@ function Robot:update(dt)
         else
             self.status = "Right"
         end
-    elseif ( self.status == "Jump" and dif >self.statusDuration.jump )then
+    elseif (self.status == "Jump" and dif >self.statusDuration.jump)then
         self.status = "Left"
-    elseif ( self.status == "Fall" and dif >self.statusDuration.fall )then
+    elseif (self.status == "Fall" and dif >self.statusDuration.fall)then
         self.status = "Left"
     else
         return
@@ -76,7 +75,7 @@ function Robot:update(dt)
         love.thread.getChannel("server"):push({key = "e"})
     elseif self.status == "Right" then
         love.thread.getChannel("server"):push({key = "r"})
-    elseif self.status ==  "Jump" then
+    elseif self.status == "Jump" then
         love.thread.getChannel("server"):push({key = "j"})
     elseif self.status == "Fall" then
         love.thread.getChannel("server"):push({key = "f"})
