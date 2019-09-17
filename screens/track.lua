@@ -91,9 +91,9 @@ local function Athlete(x, y,img)
         width = 24,
         height = 32,
         yVelocity = 0, -- y方向速度
-        jumpHeight = -130, -- 跳跃高度
+        jumpHeight = -140, -- 跳跃高度
         speed = 200, -- 速度
-        gravity = -240, -- 重力
+        gravity = -400, -- 重力
         ground = y, -- 地面坐标
         time = 0, -- 时间
         status = "Idle", --状态
@@ -105,7 +105,7 @@ local function Athlete(x, y,img)
             start = 0.3,
             left = 0.2,
             right = 0.2,
-            jump = 0.5,
+            jump = 0.8,
             fall = 1,
             idle = 0
         }
@@ -118,10 +118,6 @@ local function Athlete(x, y,img)
         self.isServer = isServer --是否是服务端
         self.time = 0
         self.yVelocity = 0 -- y方向速度
-        self.jumpHeight = -120 -- 跳跃高度
-        self.speed = 180 -- 速度
-        self.gravity = -240 -- 重力
-        self.ground = y -- 地面坐标
         self.status = "Idle"
         self.statusTime = 0
         self.sprite:setTag("Idle")
@@ -135,7 +131,7 @@ local function Athlete(x, y,img)
             return
         end
         self.statusTime = self.time
-        if self.status == "Left" then
+        --[[if self.status == "Left" then
             self.status = "Right"
             self.sprite:setTag("Right")
         elseif self.status == "Right" then
@@ -144,7 +140,9 @@ local function Athlete(x, y,img)
         else
             self.status = "Left"    
             self.sprite:setTag("Left")
-        end
+        end]]--
+        self.status = "Jump"
+        self.sprite:setTag("Jump")
 
         if self.yVelocity == 0 then
             self.yVelocity = self.jumpHeight
@@ -231,6 +229,9 @@ local function Athlete(x, y,img)
         elseif (self.status == "Right" and difTime > self.statusDuration.right) then
             self.sprite:setTag("Idle")
             self.status = "Idle"
+        elseif (self.status == "Jump" and difTime > self.statusDuration.jump) then
+            self.sprite:setTag("Idle")
+            self.status = "Idle"
         elseif (self.status == "Fall" and difTime > self.statusDuration.fall) then
             self.sprite:setTag("Idle")
             self.status = "Idle"
@@ -241,6 +242,8 @@ local function Athlete(x, y,img)
             self.x = self.x + self.speed * dt
         elseif (self.status == "Right" and difTime < self.statusDuration.right) then
             self.x = self.x + self.speed * dt
+        elseif self.status == "Jump" and difTime < self.statusDuration.jump then
+            self.x = self.x + 180 * dt
         elseif self.status == "Fall" and difTime < self.statusDuration.fall then
             self.x = self.x + 30 * dt
         end
@@ -357,9 +360,9 @@ end
 
 function TrackScreen:init(ScreenManager)
     self.screen = ScreenManager
-    self.camera = Camera(0, 180)
+    self.camera = Camera(0, 175)
     self.isServer = true -- 当前玩家是否是服务端
-    self.playerA = Athlete(0, 180,love.graphics.newImage("assets/images/runer1run.png"))
+    self.playerA = Athlete(0, 175,love.graphics.newImage("assets/images/runer1run.png"))
     self.timer = countDownTimer()
     self.background = Background(self.playerA)
     self.footLeft = peachy.new("assets/images/footleft.json", love.graphics.newImage("assets/images/footleft.png"), "Normal")
@@ -384,7 +387,7 @@ function TrackScreen:activate(data)
     else
         self.robot:init(false)
     end
-    self.playerA:rest(0,180,true,data.isServer)
+    self.playerA:rest(0,175,true,data.isServer)
     self.playerB:rest(0,140,false,data.isServer)
     for i=1,10 do
         self.hurdleTable1[i]:rest()
